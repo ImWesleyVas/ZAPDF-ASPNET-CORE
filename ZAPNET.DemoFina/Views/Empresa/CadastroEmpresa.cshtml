@@ -1,0 +1,184 @@
+﻿<!--ModelView como mais de um objeto-->
+@model ZAPNET.DemoFina.Models.EmpresaModelView 
+
+
+@{
+    ViewData["Title"] = "CadastroEmpresa";
+
+    
+
+}
+
+<h2>CadastroEmpresa</h2>
+
+<h4>Empresa</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CadastroEmpresa">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="container">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label asp-for="Empresa.Cong" class="control-label"></label>
+                        <input asp-for="Empresa.Cong" class="form-control" />
+                        <span asp-validation-for="Empresa.Cong" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.Empr" class="control-label"></label>
+                        <input asp-for="Empresa.Empr" class="form-control" />
+                        <span asp-validation-for="Empresa.Empr" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.RazaoSocial" class="control-label"></label>
+                        <input asp-for="Empresa.RazaoSocial" class="form-control" />
+                        <span asp-validation-for="Empresa.RazaoSocial" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.NomeFantasia" class="control-label"></label>
+                        <input asp-for="Empresa.NomeFantasia" class="form-control" />
+                        <span asp-validation-for="Empresa.NomeFantasia" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.Segmento" class="control-label"></label>
+                        <input asp-for="Empresa.Segmento" class="form-control" />
+                        <span asp-validation-for="Empresa.Segmento" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.CNPJ" class="control-label"></label>
+                        <input asp-for="Empresa.CNPJ" class="form-control" />
+                        <span asp-validation-for="Empresa.CNPJ" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label asp-for="Empresa.InscricaoMunicipal" class="control-label"></label>
+                        <input asp-for="Empresa.InscricaoMunicipal" class="form-control" />
+                        <span asp-validation-for="Empresa.InscricaoMunicipal" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.InscricaoEstadual" class="control-label"></label>
+                        <input asp-for="Empresa.InscricaoEstadual" class="form-control" />
+                        <span asp-validation-for="Empresa.InscricaoEstadual" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.Nire" class="control-label"></label>
+                        <input asp-for="Empresa.Nire" class="form-control" />
+                        <span asp-validation-for="Empresa.Nire" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.Id_Bacen_Cvm_Susep" class="control-label"></label>
+                        <input asp-for="Empresa.Id_Bacen_Cvm_Susep" class="form-control" />
+                        <span asp-validation-for="Empresa.Id_Bacen_Cvm_Susep" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Empresa.AtributoInstitucional" class="control-label"></label>
+                        <input asp-for="Empresa.AtributoInstitucional" class="form-control" />
+                        <span asp-validation-for="Empresa.AtributoInstitucional" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!--Adicionando janela modal window para selecionar ou adicionar endereço da empresa-->
+            <div class="form-group">
+                <div class="container">
+                    <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#janela">
+                        Adicionar Endereço
+                    </button>
+                </div>
+ 
+            </div>
+            <div class="container">
+                <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-success" />
+                    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+                </div>
+            </div>
+        </form>
+
+        <!--FALTA IMPLEMENTAR CAD ENDERECO-->
+        <form id="endereco" asp-controller="Empresa" asp-action="CadastroEndereco" method="post">
+            <!-- Janela -->
+            <div class="modal" id="janela">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                            <h4 class="modal-title">Selecione ou Cadastre o Endereço</h4>
+
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label asp-for="Endereco.Mnemonico" class="control-label"></label>
+                                <input asp-for="Endereco.Mnemonico" class="form-control" />
+                                <span asp-validation-for="Endereco.Mnemonico" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Logradouro" class="control-label"></label>
+                                <input asp-for="Endereco.Logradouro" class="form-control" />
+                                <span asp-validation-for="Endereco.Logradouro" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Descricao" class="control-label"></label>
+                                <input asp-for="Endereco.Descricao" class="form-control" />
+                                <span asp-validation-for="Endereco.Descricao" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Numero" class="control-label"></label>
+                                <input asp-for="Endereco.Numero" class="form-control" />
+                                <span asp-validation-for="Endereco.Numero" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Complemento" class="control-label"></label>
+                                <input asp-for="Endereco.Complemento" class="form-control" />
+                                <!--span asp-validation-for="Endereco.Complemento" class="text-danger"></span-->
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.CodigoPostal" class="control-label"></label>
+                                <input asp-for="Endereco.CodigoPostal" class="form-control" />
+                                <span asp-validation-for="Endereco.CodigoPostal" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Bairro" class="control-label"></label>
+                                <input asp-for="Endereco.Bairro" class="form-control" />
+                                <!--span asp-validation-for="Endereco.Bairro" class="text-danger"></span-->
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Cidade" class="control-label"></label>
+                                <input asp-for="Endereco.Cidade" class="form-control" />
+                                <span asp-validation-for="Endereco.Cidade" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Estado" class="control-label"></label>
+                                <input asp-for="Endereco.Estado" class="form-control" />
+                                <span asp-validation-for="Endereco.Estado" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Endereco.Pais" class="control-label"></label>
+                                <input asp-for="Endereco.Pais" class="form-control" />
+                                <!--span asp-validation-for="Endereco.Pais" class="text-danger"></span-->
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="LimparForm()">Cancelar</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
