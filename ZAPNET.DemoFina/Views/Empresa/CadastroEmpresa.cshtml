@@ -1,24 +1,28 @@
 ﻿<!--ModelView como mais de um objeto-->
-@model ZAPNET.DemoFina.Models.EmpresaModelView 
+@model ZAPNET.DemoFina.Models.ModelView.EmpresaModelView
 
 
 @{
-    ViewData["Title"] = "CadastroEmpresa";
+    ViewData["Title"] = "Cadastro Empresa";
 
-    
+
 
 }
 
-<h2>CadastroEmpresa</h2>
+<h2 class="modal-header" style="display:block; text-align:center"><strong>Cadastro de Empresa</strong></h2>
 
-<h4>Empresa</h4>
-<hr />
-<div class="row">
+
+<div class="row modal-content" style="padding-top:50px">
     <div class="col-md-4">
         <form asp-action="CadastroEmpresa">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="container">
                 <div class="col-lg-6">
+                    <div class="form-group">
+                        <label asp-for="Empresa.Mnemonico" class="control-label"></label>
+                        <input asp-for="Empresa.Mnemonico" class="form-control" />
+                        <span asp-validation-for="Empresa.Mnemonico" class="text-danger"></span>
+                    </div>
                     <div class="form-group">
                         <label asp-for="Empresa.Cong" class="control-label"></label>
                         <input asp-for="Empresa.Cong" class="form-control" />
@@ -77,23 +81,25 @@
                         <span asp-validation-for="Empresa.AtributoInstitucional" class="text-danger"></span>
                     </div>
                 </div>
-            </div>
 
-            <!--Adicionando janela modal window para selecionar ou adicionar endereço da empresa-->
-            <div class="form-group">
-                <div class="container">
+                <!--Adicionando janela modal window para selecionar ou adicionar endereço da empresa-->
+                <div class="form-group">
+
                     <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#janela">
                         Adicionar Endereço
                     </button>
+
+
                 </div>
- 
-            </div>
-            <div class="container">
+
                 <div class="form-group">
                     <input type="submit" value="Salvar" class="btn btn-success" />
                     <a asp-action="Index" class="btn btn-danger">Cancelar</a>
                 </div>
+
             </div>
+
+
         </form>
 
         <!--FALTA IMPLEMENTAR CAD ENDERECO-->
@@ -165,7 +171,8 @@
 
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-warning" data-dismiss="modal" onclick="LimparForm()">Cancelar</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="LimparForm()">Cancelar</button>
+                            <button type="button" class="btn btn-success" onclick="Salvar()">Salvar Endereço</button>
                         </div>
 
                     </div>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ZAPNET.DemoFina.Models
+namespace ZAPNET.DemoFina.Models.ModelView
 {
     public class EmpresaModelView
     {

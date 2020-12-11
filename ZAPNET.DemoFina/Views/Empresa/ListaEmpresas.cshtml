@@ -1,0 +1,53 @@
+﻿@model IEnumerable<ZAPNET.DemoFina.Models.Empresa>
+
+@{
+    ViewData["Title"] = "Empresas";
+}
+
+<h2 class="modal-header" style="display:block; text-align:center">Empresas</h2>
+
+<p>
+    <a asp-action="CadastroEmpresa">Cadastro Empresa</a>
+</p>
+<div class="modal-content">
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.RazaoSocial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeFantasia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Segmento)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            
+            <td>
+                @Html.DisplayFor(modelItem => item.RazaoSocial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeFantasia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Segmento)
+            </td>
+            
+            <td style="display:block; text-align:right">
+                @Html.ActionLink("Editar", "Editar", null, null, new {@class="btn btn-primary" }) |
+                @Html.ActionLink("Detalhes", "Detalhes", null, null, new { @class = "btn btn-info" }) |
+                @Html.ActionLink("Delete", "Delete", null, null, new { @class = "btn btn-danger" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

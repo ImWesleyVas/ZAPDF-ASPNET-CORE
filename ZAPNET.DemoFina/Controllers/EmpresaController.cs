@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.Models;
+using ZAPNET.DemoFina.Models.ModelView;
 using ZAPNET.DemoFina.Models.Enumerator;
+using ZAPNET.DemoFina.DAL;
 
 namespace ZAPNET.DemoFina.Controllers
 {
@@ -15,6 +17,15 @@ namespace ZAPNET.DemoFina.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult ListaEmpresas()
+        {
+         
+            List<Empresa> empresas = new EmpresaDAL().FindAllEmpresas();
+
+            return View(empresas);
+
         }
 
         public IActionResult CadastroEmpresa()
@@ -34,6 +45,7 @@ namespace ZAPNET.DemoFina.Controllers
             cadEmpresa.Empresa = empresa;
             cadEmpresa.Endereco = endereco;
 
+            empresa.Mnemonico = formulario.Mnemonico.ToString();
             empresa.Cong = int.Parse(formulario.Cong.ToString());
             empresa.Empr = int.Parse(formulario.Cong.ToString());
             empresa.RazaoSocial = formulario.RazaoSocial;
@@ -46,7 +58,7 @@ namespace ZAPNET.DemoFina.Controllers
             empresa.Id_Bacen_Cvm_Susep = formulario.Id_Bacen_Cvm_Susep;
             empresa.AtributoInstitucional = formulario.AtributoInstitucional;
 
-            ViewBag.CadEmpresa(cadEmpresa);
+            
 
             return View();
         }

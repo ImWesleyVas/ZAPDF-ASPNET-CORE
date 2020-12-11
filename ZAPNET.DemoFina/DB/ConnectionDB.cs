@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Data.Common;
 using System.Data.SqlClient;
 
@@ -6,6 +7,8 @@ namespace ZAPNET.DemoFina.DB
 {
     public static class ConnectionDB 
     {
+        static private IConfiguration configuration; // verificar depois como usar este para captura a conectionString
+
 
         // string de conexão com ZAP_DF
 

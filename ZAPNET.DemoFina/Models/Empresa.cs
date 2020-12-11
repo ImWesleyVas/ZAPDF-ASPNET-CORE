@@ -9,6 +9,7 @@ namespace ZAPNET.DemoFina.Models
     public class Empresa
     {
         public int Id { get; set; }
+        public string Mnemonico { get; set; }
         [Display(Name = "Código do Conglomerado")]
         public int Cong { get; set; }
         [Display(Name = "Código da Empresa")]
@@ -37,9 +38,9 @@ namespace ZAPNET.DemoFina.Models
         {
         }
 
-        public Empresa(int id, int cong, int empr, string razaoSocial, string nomeFantasia, string segmento, string cnpj, string inscricaoMunicipal, string inscricaoEstadual, string nire, string id_Bacen_Cvm_Susep, char atributoInstitucional)
+        public Empresa(string mnemonico, int cong, int empr, string razaoSocial, string nomeFantasia, string segmento, string cnpj, string inscricaoMunicipal, string inscricaoEstadual, string nire, string id_Bacen_Cvm_Susep, char atributoInstitucional)
         {
-            Id = id;
+            Mnemonico = mnemonico;
             Cong = cong;
             Empr = empr;
             RazaoSocial = razaoSocial;

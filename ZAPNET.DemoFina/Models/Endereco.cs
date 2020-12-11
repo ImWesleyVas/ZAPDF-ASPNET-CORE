@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.Models.Enumerator;
@@ -16,6 +17,7 @@ namespace ZAPNET.DemoFina.Models
         public string Descricao { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }
+        [Display(Name="Código Postal")]
         public string CodigoPostal { get; set; }
         public string Bairro { get; set; }
         public string Cidade { get; set; }
