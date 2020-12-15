@@ -83,7 +83,7 @@
                 </div>
 
                 <!--Adicionando janela modal window para selecionar ou adicionar endereço da empresa-->
-                <div class="form-group">
+                <div class="form-group" style="padding: 5px 30px 5px 5px">
 
                     <button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#janela">
                         Adicionar Endereço
@@ -94,7 +94,7 @@
 
                 <div class="form-group">
                     <input type="submit" value="Salvar" class="btn btn-success" />
-                    <a asp-action="Index" class="btn btn-danger">Cancelar</a>
+                    <a asp-action="ListaEmpresas" class="btn btn-danger">Cancelar</a>
                 </div>
 
             </div>
@@ -182,9 +182,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

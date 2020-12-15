@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ZAPNET.DemoFina.Models
 {
-    public class Empresa
+    public class Empresa 
     {
         public int Id { get; set; }
         public string Mnemonico { get; set; }
@@ -30,7 +30,8 @@ namespace ZAPNET.DemoFina.Models
         [Display(Name = "Atributo Institucional")]
         public char AtributoInstitucional { get; set; }
 
-        private List<Endereco> _enderecos;
+        private List<Endereco> enderecos;
+        private List<ModeloDF> modelosDF;
 
 
 
@@ -57,7 +58,13 @@ namespace ZAPNET.DemoFina.Models
 
         public void addEnderecos(Endereco endereco)
         {
-            _enderecos.Add(endereco);
+            enderecos.Add(endereco);
+
+        }
+
+        public void addModelosDF(ModeloDF modeloDF)
+        {
+            modelosDF.Add(modeloDF);
 
         }
     }

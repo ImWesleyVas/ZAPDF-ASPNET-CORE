@@ -13,7 +13,7 @@
 <table class="table">
     <thead>
         <tr>
-            
+
             <th>
                 @Html.DisplayNameFor(model => model.RazaoSocial)
             </th>
@@ -21,16 +21,19 @@
                 @Html.DisplayNameFor(model => model.NomeFantasia)
             </th>
             <th>
+            @Html.DisplayNameFor(model => model.CNPJ)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.Segmento)
             </th>
-            
+
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            
+
             <td>
                 @Html.DisplayFor(modelItem => item.RazaoSocial)
             </td>
@@ -38,11 +41,14 @@
                 @Html.DisplayFor(modelItem => item.NomeFantasia)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.CNPJ)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Segmento)
             </td>
-            
+
             <td style="display:block; text-align:right">
-                @Html.ActionLink("Editar", "Editar", null, null, new {@class="btn btn-primary" }) |
+                @Html.ActionLink("Editar", "Editar", null, null, new { @class = "btn btn-primary" }) |
                 @Html.ActionLink("Detalhes", "Detalhes", null, null, new { @class = "btn btn-info" }) |
                 @Html.ActionLink("Delete", "Delete", null, null, new { @class = "btn btn-danger" })
             </td>

@@ -7,12 +7,14 @@ using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Models.ModelView;
 using ZAPNET.DemoFina.Models.Enumerator;
 using ZAPNET.DemoFina.DAL;
+using ZAPNET.DemoFina.Services;
 
 namespace ZAPNET.DemoFina.Controllers
 {
     public class EmpresaController : Controller
     {
-        
+        EmpresaRepository repo;
+        EmpresaDAL empresaDal;
 
         public IActionResult Index()
         {
@@ -36,31 +38,61 @@ namespace ZAPNET.DemoFina.Controllers
         
 
         [HttpPost]
-        public IActionResult CadastroEmpresa(Empresa formulario)
+        public IActionResult CadastroEmpresa(EmpresaModelView formulario)
         {
-            Empresa empresa = new Empresa();
-            Endereco endereco = new Endereco();
-            EmpresaModelView cadEmpresa = new EmpresaModelView();
+             /*Empresa empresa = new Empresa();
+             Endereco endereco = new Endereco();
+             EmpresaModelView cadEmpresa = new EmpresaModelView();
 
-            cadEmpresa.Empresa = empresa;
-            cadEmpresa.Endereco = endereco;
+             cadEmpresa.Empresa = empresa;
+             cadEmpresa.Endereco = endereco;
 
-            empresa.Mnemonico = formulario.Mnemonico.ToString();
-            empresa.Cong = int.Parse(formulario.Cong.ToString());
-            empresa.Empr = int.Parse(formulario.Cong.ToString());
-            empresa.RazaoSocial = formulario.RazaoSocial;
-            empresa.NomeFantasia = formulario.NomeFantasia;
-            empresa.Segmento = formulario.Segmento;
-            empresa.CNPJ = formulario.CNPJ;
-            empresa.InscricaoMunicipal = formulario.InscricaoMunicipal;
-            empresa.InscricaoEstadual = formulario.InscricaoEstadual;
-            empresa.Nire = formulario.Nire;
-            empresa.Id_Bacen_Cvm_Susep = formulario.Id_Bacen_Cvm_Susep;
-            empresa.AtributoInstitucional = formulario.AtributoInstitucional;
+             empresa.Mnemonico = formulario.Empresa.Mnemonico.ToString();
+             empresa.Cong = int.Parse(formulario.Empresa.Cong.ToString());
+             empresa.Empr = int.Parse(formulario.Empresa.Cong.ToString());
+             empresa.RazaoSocial = formulario.Empresa.RazaoSocial;
+             empresa.NomeFantasia = formulario.Empresa.NomeFantasia;
+             empresa.Segmento = formulario.Empresa.Segmento;
+             empresa.CNPJ = formulario.Empresa.CNPJ;
+             empresa.InscricaoMunicipal = formulario.Empresa.InscricaoMunicipal;
+             empresa.InscricaoEstadual = formulario.Empresa.InscricaoEstadual;
+             empresa.Nire = formulario.Empresa.Nire;
+             empresa.Id_Bacen_Cvm_Susep = formulario.Empresa.Id_Bacen_Cvm_Susep;
+             empresa.AtributoInstitucional = formulario.Empresa.AtributoInstitucional;*/
 
-            
 
-            return View();
+
+            empresaDal = new EmpresaDAL();
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (empresaDal.Salvar(formulario.Empresa))
+                    {
+                        TempData["Sucesso"] = "Empresa cadastrada com sucesso!!!";
+                        return RedirectToAction("ListaEmpresas");
+                    }
+                    else
+                    {
+                        ViewBag.Falha = "O cadastro da empresa não foi realizado!!!";
+                        return View();
+                    }
+
+                    // retorna e mantém os dados nos campos - não recarrega a pagina
+                    
+                }
+            }
+            catch (Exception e)
+            {
+
+                ViewBag.Falha = "[ERROR] - Verifique: " + e.Message;
+            }
+
+            // Redireciona para a ActionResult ListaEmpresas que responde
+            // comando (verbo) do HttpGet
+            return RedirectToAction("ListaEmpresas");
+
         }
 
         public IActionResult CadastroEndereco()

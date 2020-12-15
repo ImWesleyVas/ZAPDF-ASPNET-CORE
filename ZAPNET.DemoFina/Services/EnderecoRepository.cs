@@ -35,17 +35,17 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<T> findAll()
+        public List<T> FindAll()
         {
             throw new NotImplementedException();
         }
 
-        public T findById(int id)
+        public T FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool Save(T Obj)
+        public bool Add(T Obj)
         {
             throw new NotImplementedException();
         }

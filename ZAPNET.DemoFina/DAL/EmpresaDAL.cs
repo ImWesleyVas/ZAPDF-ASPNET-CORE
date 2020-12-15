@@ -14,12 +14,12 @@ namespace ZAPNET.DemoFina.DAL
 
         public List<Empresa> FindAllEmpresas()
         {
-            return repo.findAll();
+            return repo.FindAll();
         }
 
-        public void Salvar()
+        public bool Salvar(Empresa empresa)
         {
-
+            return repo.Add(empresa);
         }
 
     }

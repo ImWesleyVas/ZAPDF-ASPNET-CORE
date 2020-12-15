@@ -7,10 +7,10 @@ namespace ZAPNET.DemoFina.Services
 {
     interface ICrudRepository<T>
     {
-        bool Save(T obj);
+        bool Add(T obj);
         bool Delete(T obj);
         bool Update(T obj);
-        T findById(int id);
-        List<T> findAll();
+        T FindById(int id);
+        List<T> FindAll();
     }
 }
