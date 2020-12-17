@@ -4,6 +4,7 @@ namespace ZAPNET.DemoFina.Models
 {
     public class Cosif : Conta
     {
+        public int ContaCosif { get; set; }
         public DateTime Validade { get; set; }
         public string AtributoInstitucional { get; set; }
 
@@ -12,9 +13,10 @@ namespace ZAPNET.DemoFina.Models
 
         }
 
-        public Cosif(int id, string descricao, string tipo, string natureza, int nivel, string classe, DateTime validade,
+        public Cosif(int id, int contaCosif, string descricao, string tipo, string natureza, int nivel, string classe, DateTime validade,
                         string atributoInstitucional) : base(id, descricao, tipo, natureza, nivel, classe)
         {
+            ContaCosif = contaCosif;
             Validade = validade;
             AtributoInstitucional = atributoInstitucional;
         }

@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "ImportarCosif";
+}
+
+<h2>Importar Cosif</h2>
+
+<p>@ViewData["Resultado"]</p>
+
+<hr />
+<div class="modal-content">
+    <div class="container">
+        <div class="row">
+            <section>
+                <form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="EnviarArquivo">
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <p> Enviar um ou mais arquivos : </p>
+                            <input type="file" name="arquivos" multiple class="btn btn-block btn-primary" />
+                            <br />
+                        </div>
+                        <div class="col-md-2" style="display:block; text-align:right">
+                            <input type="submit" value="Enviar arquivo" class="btn btn-block btn-success" />
+                            <a type="buttom" asp-controller="Cosif" asp-action="ListaCosif" class="btn btn-block btn-danger"> Cancelar</a>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+        <br />
+        <br />
+        @if (ViewData["Erro"] != null)
+        {
+            <h3 class="danger">@ViewData["Erro"]</h3>
+            <br />
+            <br />
+        }
+        @if (ViewData["Resultado"] != null)
+        {
+            <h3 class="success">@ViewData["Resultado"]</h3>
+            <br />
+            <br />
+        }
+    </div>
+</div>

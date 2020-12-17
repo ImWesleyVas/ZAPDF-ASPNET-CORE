@@ -11,7 +11,6 @@ namespace ZAPNET.DemoFina.DAL
     {
         private ICrudRepository<Empresa> repo = new EmpresaRepository();
 
-
         public List<Empresa> FindAllEmpresas()
         {
             return repo.FindAll();
@@ -21,6 +20,5 @@ namespace ZAPNET.DemoFina.DAL
         {
             return repo.Add(empresa);
         }
-
     }
 }

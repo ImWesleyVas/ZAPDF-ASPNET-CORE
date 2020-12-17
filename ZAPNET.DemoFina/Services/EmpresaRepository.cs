@@ -168,10 +168,11 @@ namespace ZAPNET.DemoFina.Services
                 // executa o comando SQL
                 using (var dr = comando.ExecuteReader())
                 {
-                    var empresa = new Empresa();
+                    
 
                     while (dr.Read())
                     {
+                        var empresa = new Empresa();
                         empresa.Id = Convert.ToInt32(dr["Id"]);
                         empresa.Mnemonico = Convert.ToString(dr["Mnemonico"].ToString());
                         empresa.Cong = Convert.ToInt32(dr["Cong"]);

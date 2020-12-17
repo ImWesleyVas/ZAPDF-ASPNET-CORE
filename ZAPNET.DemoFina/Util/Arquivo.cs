@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ZAPNET.DemoFina.Util
 {
-    public abstract class Arquivo : IArquivo
+    public abstract class Arquivo<T>: IArquivo<List<string[]>>
     {
         protected string Path { get; set; }
 
@@ -19,6 +20,6 @@ namespace ZAPNET.DemoFina.Util
             Path = path;
         }
 
-        public abstract StreamReader ReadFile();
+        public abstract List<string[]> ReadFile();
     }
 }

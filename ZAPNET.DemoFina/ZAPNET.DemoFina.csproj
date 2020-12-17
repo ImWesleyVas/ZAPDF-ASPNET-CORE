@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <Folder Include="Exceptions\" />
+    <Folder Include="wwwroot\Files\UserFiles\Upload\" />
   </ItemGroup>
 
 </Project>

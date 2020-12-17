@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ZAPNET.DemoFina.Util
 {
-    interface IArquivo
+    interface IArquivo<T>
     {
-        StreamReader ReadFile();
+        T ReadFile();
 
     }
 }

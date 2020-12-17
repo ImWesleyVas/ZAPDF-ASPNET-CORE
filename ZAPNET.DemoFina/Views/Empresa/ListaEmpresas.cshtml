@@ -4,56 +4,75 @@
     ViewData["Title"] = "Empresas";
 }
 
-<h2 class="modal-header" style="display:block; text-align:center">Empresas</h2>
+<h2 class="modal-header" style="display:block; text-align:center"><strong>Empresas</strong></h2>
 
-<p>
-    <a asp-action="CadastroEmpresa">Cadastro Empresa</a>
-</p>
-<div class="modal-content">
-<table class="table">
-    <thead>
-        <tr>
 
-            <th>
-                @Html.DisplayNameFor(model => model.RazaoSocial)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NomeFantasia)
-            </th>
-            <th>
-            @Html.DisplayNameFor(model => model.CNPJ)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Segmento)
-            </th>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+<div class="container">
+    <div class="col-lg-6">
+        <a type="button" asp-action="CadastroEmpresa" class="btn btn-primary">Cadastrar Empresa</a>
+    </div>
+    <div class="col-lg-6" style="text-align:right">
+        <a type="button" asp-controller="Home" asp-action="Index" class="btn btn-warning" style="text-align:right">Voltar</a>
+    </div>
+</div>
+<br />
 
-            <td>
-                @Html.DisplayFor(modelItem => item.RazaoSocial)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NomeFantasia)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CNPJ)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Segmento)
-            </td>
 
-            <td style="display:block; text-align:right">
-                @Html.ActionLink("Editar", "Editar", null, null, new { @class = "btn btn-primary" }) |
-                @Html.ActionLink("Detalhes", "Detalhes", null, null, new { @class = "btn btn-info" }) |
-                @Html.ActionLink("Delete", "Delete", null, null, new { @class = "btn btn-danger" })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container">
+
+    @foreach (var item in Model)
+    {
+        <div class="modal-content">
+            <table class="table">
+
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.RazaoSocial)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NomeFantasia)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CNPJ)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Segmento)
+                        </th>
+
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RazaoSocial)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NomeFantasia)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CNPJ)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Segmento)
+                        </td>
+
+                        <td style="display: block; text-align: right">
+                            @Html.ActionLink("Editar", "Editar", null, null, new { @class = "btn btn-primary" }) |
+                            @Html.ActionLink("Detalhes", "Detalhes", null, null, new { @class = "btn btn-info" }) |
+                            @Html.ActionLink("Excluir", "Excluir", null, null, new { @class = "btn btn-danger" })
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+        </div>
+        <br />
+    }
+
+
 </div>
