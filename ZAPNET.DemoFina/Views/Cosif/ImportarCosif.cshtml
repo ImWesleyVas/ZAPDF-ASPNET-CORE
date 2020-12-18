@@ -5,14 +5,13 @@
 
 <h2>Importar Cosif</h2>
 
-<p>@ViewData["Resultado"]</p>
 
 <hr />
 <div class="modal-content">
     <div class="container">
         <div class="row">
             <section>
-                <form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="EnviarArquivo">
+                <form method="post" enctype="multipart/form-data" asp-controller="Cosif" asp-action="EnviarArquivo">
                     <div class="form-group">
                         <div class="col-md-8">
                             <p> Enviar um ou mais arquivos : </p>
@@ -30,15 +29,15 @@
         </div>
         <br />
         <br />
-        @if (ViewData["Erro"] != null)
+        @if (@ViewBag.Erro != null)
         {
-            <h3 class="danger">@ViewData["Erro"]</h3>
+            <h3 class="danger">@ViewBag.Erro"]</h3>
             <br />
             <br />
         }
-        @if (ViewData["Resultado"] != null)
+        @if (@ViewBag.Resultado != null)
         {
-            <h3 class="success">@ViewData["Resultado"]</h3>
+            <h3 class="success">@ViewBag.Resultado</h3>
             <br />
             <br />
         }
