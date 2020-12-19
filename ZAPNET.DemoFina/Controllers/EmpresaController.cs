@@ -24,9 +24,7 @@ namespace ZAPNET.DemoFina.Controllers
         public IActionResult ListaEmpresas()
         {
          
-            List<Empresa> empresas = new EmpresaDAL().FindAllEmpresas();
-
-            return View(empresas);
+           return View(new EmpresaDAL().FindAllEmpresas());
 
         }
 
@@ -70,12 +68,12 @@ namespace ZAPNET.DemoFina.Controllers
                 {
                     if (empresaDal.Salvar(formulario.Empresa))
                     {
-                        TempData["Sucesso"] = "Empresa cadastrada com sucesso!!!";
+                        ViewData["Sucesso"] = "Empresa cadastrada com sucesso!!!";
                         return RedirectToAction("ListaEmpresas");
                     }
                     else
                     {
-                        ViewBag.Falha = "O cadastro da empresa não foi realizado!!!";
+                        ViewData["Falha"] = "O cadastro da empresa não foi realizado!!!";
                         return View();
                     }
 
@@ -86,7 +84,7 @@ namespace ZAPNET.DemoFina.Controllers
             catch (Exception e)
             {
 
-                ViewBag.Falha = "[ERROR] - Verifique: " + e.Message;
+                ViewData["Falha"] = "[ERROR] - Verifique: " + e.Message;
             }
 
             // Redireciona para a ActionResult ListaEmpresas que responde

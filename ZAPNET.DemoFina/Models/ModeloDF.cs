@@ -8,10 +8,10 @@ namespace ZAPNET.DemoFina.Models
     public class ModeloDF
     {
         public int Id { get; set; }
-        public string Demonstracao { get; set; }
+        public string Nome { get; set; }
 
         private List<Empresa> empresas = new List<Empresa>();
-        private List<ContaRubricaDF> contasRubricasDF = new List<ContaRubricaDF>();
+        private List<ContaDF> contasDF = new List<ContaDF>();
 
         public ModeloDF()
         {
@@ -21,7 +21,7 @@ namespace ZAPNET.DemoFina.Models
         public ModeloDF(int id, string demonstracao)
         {
             Id = id;
-            Demonstracao = demonstracao;
+            Nome = demonstracao;
         }
 
 
@@ -30,9 +30,9 @@ namespace ZAPNET.DemoFina.Models
             empresas.Add(empresa);
         }
 
-        public void addContaRubricaDF(ContaRubricaDF contaRubrica)
+        public void addContaRubricaDF(ContaDF contaRubrica)
         {
-            contasRubricasDF.Add(contaRubrica);
+            contasDF.Add(contaRubrica);
         }
 
     }

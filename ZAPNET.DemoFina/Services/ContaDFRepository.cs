@@ -9,14 +9,14 @@ using ZAPNET.DemoFina.Models;
 
 namespace ZAPNET.DemoFina.Services
 {
-    public class ContaRubricaDFRepository : ICrudRepository<ContaRubricaDF>
+    public class ContaDFRepository : ICrudRepository<ContaDF>
     {
 
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
 
-        public ContaRubricaDFRepository()
+        public ContaDFRepository()
         {
 
             if (conn == null)
@@ -32,7 +32,7 @@ namespace ZAPNET.DemoFina.Services
 
         }
 
-        public bool Add(ContaRubricaDF obj)
+        public bool Add(ContaDF obj)
         {
             try
             {
@@ -76,22 +76,22 @@ namespace ZAPNET.DemoFina.Services
 
         }
 
-        public bool Delete(ContaRubricaDF obj)
+        public bool Delete(ContaDF obj)
         {
             throw new NotImplementedException();
         }
 
-        public List<ContaRubricaDF> FindAll()
+        public List<ContaDF> FindAll()
         {
             throw new NotImplementedException();
         }
 
-        public ContaRubricaDF FindById(int id)
+        public ContaDF FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(ContaRubricaDF obj)
+        public bool Update(ContaDF obj)
         {
             throw new NotImplementedException();
         }
