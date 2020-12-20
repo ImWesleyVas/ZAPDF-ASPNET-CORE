@@ -147,7 +147,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<Empresa> FindAll()
+        public List<Empresa> FindAll(int? id)
         {
             List<Empresa> lista = new List<Empresa>();
 

@@ -9,22 +9,25 @@
 <p>
     <a asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
 </p>
-<div class="modal-content">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Id)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nome)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+
+@foreach (var item in Model)
+{
+    <div class="modal-content">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nome)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Id)
@@ -32,13 +35,16 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Nome)
                     </td>
-                    <td>
-                        @Html.ActionLink("Editar", "Editar", new { @class = "btn btn-primary" }) |
-                        @Html.ActionLink("Excluir", "Excluir", new { @class = "btn btn-danger" }) |
-                        @Html.ActionLink("Adicionar Conta", "AddContaDF", new { @class = "btn btn-success" })
+                    <td style="display:block; text-align:right">
+                        @Html.ActionLink("Editar", "AddModelo", null, new { id = item.Id }, new { @class = "btn btn-primary" }) |
+                        @Html.ActionLink("Excluir", "Excluir", null, new { id = item.Id }, new { @class = "btn btn-danger" }) |
+                        @Html.ActionLink("Rubricas", "ListaContasDF", "ContaDF", new { id = item.Id }, new { @class = "btn btn-info" })
                     </td>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+
+            </tbody>
+        </table>
+
+    </div>
+    <br />
+}

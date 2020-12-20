@@ -17,9 +17,9 @@ namespace ZAPNET.DemoFina.Controllers
             return View();
         }
 
-        public IActionResult ListaModelos()
+        public IActionResult ListaModelos(int? id)
         {
-            return View(modeloDAO.FindAllModelos());
+            return View(modeloDAO.FindAllModelos(id));
         }
 
         public IActionResult AddModelo()
@@ -27,6 +27,13 @@ namespace ZAPNET.DemoFina.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult AddModelo(int id)
+        {
+            return View(modeloDAO.FindByModeloID(id));
+        }
+        
+        
         [HttpPost]
         public IActionResult AddModelo(ModeloDF formularioModelo)
         {
@@ -34,16 +41,34 @@ namespace ZAPNET.DemoFina.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (modeloDAO.Salvar(formularioModelo))
+                    if (formularioModelo.Id > 0)
                     {
-                        ViewData["Sucesso"] = "Empresa cadastrada com sucesso!!!";
-                        return RedirectToAction("ListaModelos");
+                        if (modeloDAO.Update(formularioModelo))
+                        {
+                            ViewData["Sucesso"] = "Modelo atualizado com sucesso!!!";
+                            return RedirectToAction("ListaModelos");
+                        }
+                        else
+                        {
+                            ViewData["Falha"] = "O modelo não foi atualizado!!!";
+                            return View();
+                        }
+
                     }
                     else
                     {
-                        ViewData["Falha"] = "O cadastro da empresa não foi realizado!!!";
-                        return View();
+                        if (modeloDAO.Salvar(formularioModelo))
+                        {
+                            ViewData["Sucesso"] = "Modelo cadastrado com sucesso!!!";
+                            return RedirectToAction("ListaModelos");
+                        }
+                        else
+                        {
+                            ViewData["Falha"] = "O modelo não foi cadastrado!!!";
+                            return View();
+                        }
                     }
+                    
 
                     // retorna e mantém os dados nos campos - não recarrega a pagina
 
@@ -59,5 +84,7 @@ namespace ZAPNET.DemoFina.Controllers
             // comando (verbo) do HttpGet
             return RedirectToAction("ListaModelos");
         }
+
+
     }
 }

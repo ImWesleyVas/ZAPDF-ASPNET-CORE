@@ -35,7 +35,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<T> FindAll()
+        public List<T> FindAll(int? id)
         {
             throw new NotImplementedException();
         }

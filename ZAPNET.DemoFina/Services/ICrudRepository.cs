@@ -11,6 +11,6 @@ namespace ZAPNET.DemoFina.Services
         bool Delete(T obj);
         bool Update(T obj);
         T FindById(int id);
-        List<T> FindAll();
+        List<T> FindAll(int? id);
     }
 }

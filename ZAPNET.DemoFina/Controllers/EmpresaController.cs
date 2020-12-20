@@ -21,10 +21,10 @@ namespace ZAPNET.DemoFina.Controllers
             return View();
         }
 
-        public IActionResult ListaEmpresas()
+        public IActionResult ListaEmpresas(int? id)
         {
          
-           return View(new EmpresaDAL().FindAllEmpresas());
+           return View(new EmpresaDAL().FindAllEmpresas(id));
 
         }
 

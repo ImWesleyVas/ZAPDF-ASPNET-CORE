@@ -32,9 +32,9 @@ namespace ZAPNET.DemoFina.Controllers
         }
 
    
-        public IActionResult ListaCosif()
+        public IActionResult ListaCosif(int? id)
         {
-            return View(_cosifDao.findAllCosif());
+            return View(_cosifDao.findAllCosif(id));
         }
 
 

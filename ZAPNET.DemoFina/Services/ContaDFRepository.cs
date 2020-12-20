@@ -81,9 +81,57 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<ContaDF> FindAll()
+        public List<ContaDF> FindAll(int ? idModelo)
         {
-            throw new NotImplementedException();
+            List<ContaDF> lista = new List<ContaDF>();
+
+
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "SELECT * FROM CONTA_DF WHERE MODELO_ID = @MODELO_ID";
+
+                // trocamos os parametros                
+                comando.Parameters.AddWithValue("@MODELO_ID", idModelo);
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executa o comando SQL
+                using (var dr = comando.ExecuteReader())
+                {
+
+
+                    while (dr.Read())
+                    {
+                        var contaDF = new ContaDF();
+                        contaDF.Id = Convert.ToInt32(dr["Id"]);
+                        contaDF.Descricao = Convert.ToString(dr["Descricao"].ToString());
+                        contaDF.Tipo = Convert.ToString(dr["Tipo"].ToString());
+
+
+                        lista.Add(contaDF);
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return lista;
         }
 
         public ContaDF FindById(int id)

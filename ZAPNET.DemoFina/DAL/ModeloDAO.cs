@@ -11,14 +11,24 @@ namespace ZAPNET.DemoFina.DAL
     {
         private ICrudRepository<ModeloDF> repo = new ModeloDFRepository();
 
-        public List<ModeloDF> FindAllModelos()
+        public List<ModeloDF> FindAllModelos(int? id)
         {
-            return repo.FindAll();
+            return repo.FindAll(id);
+        }
+
+        public ModeloDF FindByModeloID(int id)
+        {
+            return repo.FindById(id);
         }
 
         public bool Salvar(ModeloDF modelo)
         {
             return repo.Add(modelo);
+        }
+
+        public bool Update(ModeloDF modelo)
+        {
+            return repo.Update(modelo);
         }
     }
 }

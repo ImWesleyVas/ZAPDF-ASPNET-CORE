@@ -18,9 +18,9 @@ namespace ZAPNET.DemoFina.DAL
             return repo.ImportaCosifCSV(contasCosif);
         }
 
-        public List<Cosif> findAllCosif()
-        {
-            return repo.FindAll();
+        public List<Cosif> findAllCosif(int? id)
+        {            
+            return repo.FindAll(id);
         }
     }
 }

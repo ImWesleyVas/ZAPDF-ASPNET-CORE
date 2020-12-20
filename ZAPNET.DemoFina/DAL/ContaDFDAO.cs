@@ -7,18 +7,15 @@ using ZAPNET.DemoFina.Services;
 
 namespace ZAPNET.DemoFina.DAL
 {
-    public class EmpresaDAL
+    public class ContaDFDAO
     {
-        private ICrudRepository<Empresa> repo = new EmpresaRepository();
 
-        public List<Empresa> FindAllEmpresas(int? id)
+        ContaDFRepository repo = new ContaDFRepository();
+
+        public List<ContaDF> findAllContasDF(int? id)
         {
             return repo.FindAll(id);
         }
 
-        public bool Salvar(Empresa empresa)
-        {
-            return repo.Add(empresa);
-        }
     }
 }

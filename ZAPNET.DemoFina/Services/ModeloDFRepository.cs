@@ -79,7 +79,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<ModeloDF> FindAll()
+        public List<ModeloDF> FindAll(int? id)
         {
             List<ModeloDF> lista = new List<ModeloDF>();
 
@@ -129,12 +129,95 @@ namespace ZAPNET.DemoFina.Services
 
         public ModeloDF FindById(int id)
         {
-            throw new NotImplementedException();
+            var modelo = new ModeloDF();
+
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "SELECT * FROM MODELO_DF WHERE ID = @ID";
+
+                // trocamos os parametros                
+                comando.Parameters.AddWithValue("@ID", id);
+
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executa o comando SQL
+                using (var dr = comando.ExecuteReader())
+                {
+
+
+                    while (dr.Read())
+                    {
+                        
+                        modelo.Id = Convert.ToInt32(dr["Id"]);
+                        modelo.Nome = Convert.ToString(dr["Nome"].ToString());
+
+                        
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return modelo;
         }
 
         public bool Update(ModeloDF obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = @"UPDATE MODELO_DF SET Nome =  " +
+                    "@Nome WHERE Id = @Id";
+
+                // trocamos os parametros                
+                comando.Parameters.AddWithValue("@Nome", obj.Nome);
+                comando.Parameters.AddWithValue("@Id", obj.Id);
+
+                // abre conexao com DB
+                conn.Open();
+
+
+                // executamos o comando para inserir no BD
+                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
+            }
+
+            return result;
         }
     }
 }

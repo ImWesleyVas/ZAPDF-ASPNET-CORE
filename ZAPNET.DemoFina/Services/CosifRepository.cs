@@ -143,7 +143,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<Cosif> FindAll()
+        public List<Cosif> FindAll(int? id)
         {
             List<Cosif> lista = new List<Cosif>();
 
