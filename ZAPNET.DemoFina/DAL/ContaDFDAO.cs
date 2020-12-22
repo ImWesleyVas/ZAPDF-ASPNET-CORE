@@ -17,5 +17,20 @@ namespace ZAPNET.DemoFina.DAL
             return repo.FindAll(id);
         }
 
+        public ContaDF findByIDContasDF(int id)
+        {
+            return repo.FindById(id);
+        }
+
+        public bool Salvar(ModeloDF modelo, ContaDF conta)
+        {
+           return repo.AddContaDF(modelo.Id, conta);
+        }
+
+        public bool Excluir(ContaDF conta)
+        {
+            return repo.DeleteContaDF( conta);
+        }
+
     }
 }

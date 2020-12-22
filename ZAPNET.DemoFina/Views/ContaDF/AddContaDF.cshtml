@@ -1,0 +1,107 @@
+﻿@model ZAPNET.DemoFina.Models.ModelView.ModeloDFModelView
+
+@{
+    ViewData["Title"] = "AddContaDF";
+
+}   
+<div style="text-align:center">
+    <h2>@Model.ModeloDF.Id - @Model.ModeloDF.Nome </h2>
+</div>
+
+<h4>Cadastro Conta DF</h4>
+<hr />
+<div class="container modal-content">
+    <div class="row">
+
+        <form asp-controller="ContaDF" asp-action="AddContaDF">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="@Model.ContaDF.Id" class="control-label"></label>
+                    <input asp-for="@Model.ContaDF.Id" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="@Model.ContaDF.Id" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.ContaDF.CodigoContaDF" class="control-label"></label>
+                    <input asp-for="@Model.ContaDF.CodigoContaDF" class="form-control" />
+                    <span asp-validation-for="@Model.ContaDF.CodigoContaDF" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.ContaDF.Descricao" class="control-label"></label>
+                    <input asp-for="@Model.ContaDF.Descricao" class="form-control" />
+                    <span asp-validation-for="@Model.ContaDF.Descricao" class="text-danger"></span>
+                </div>
+
+
+                <div class="form-group">
+
+                    <label @Model.ContaDF.Tipo>Selecione o tipo:</label>
+                    <select asp-for="@Model.ContaDF.Tipo" class="form-control" id="selectedTipo">
+                        <option value="S" label="Sintética" >S</option>
+                        <option value="A" label="Analítica">A</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+
+                <div class="form-group">
+                    <label @Model.ContaDF.Natureza>Natureza:</label>
+                    <select asp-for="@Model.ContaDF.Natureza" class="form-control" id="selectedNatureza">
+                        <option  selected="selected" label="Duplo Posicionamento" value="M">M</option>
+                        <option label="Devedora" value="D">D</option>
+                        <option label="Credora" value="C">C</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="@Model.ContaDF.Nivel" class="control-label"></label>
+                    <input asp-for="@Model.ContaDF.Nivel" class="form-control" />
+                    <span asp-validation-for="@Model.ContaDF.Nivel" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label @Model.ContaDF.Natureza>Classe:</label>
+                    <select asp-for="@Model.ContaDF.Classe" class="form-control" id="selectedNatureza">
+                        <option selected="selected" label="Ativo" value="AT">AT</option>
+                        <option label="Passivo" value="PA">PA</option>
+                        <option label="Patrimonio Líquido" value="PL">PL</option>
+                        <option label="Receita" value="RE">RE</option>
+                        <option label="Despesa" value="DE">DE</option>
+                        <option label="Compensação" value="CP">CP</option>
+
+                    </select>
+                </div>
+
+
+                <div class="form-group">
+
+                    <input asp-for="@Model.ModeloDF.Id" type="hidden" class="form-control" />
+                    <input asp-for="@Model.ModeloDF.Nome" type="hidden" class="form-control" />
+
+                </div>
+
+
+
+            </div>
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-success" />
+                    <a asp-action="ListaContasDF" asp-route-id="@Model.ModeloDF.Id" class="btn btn-warning">Voltar</a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+
+}

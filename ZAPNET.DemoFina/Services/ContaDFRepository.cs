@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
 
@@ -32,7 +33,7 @@ namespace ZAPNET.DemoFina.Services
 
         }
 
-        public bool Add(ContaDF obj)
+        public bool AddContaDF(int modeloID, ContaDF obj)
         {
             try
             {
@@ -43,17 +44,21 @@ namespace ZAPNET.DemoFina.Services
                 comando.CommandType = CommandType.Text;
 
                 // define a query a se executada
-                comando.CommandText = @" ";
+                comando.CommandText = @"INSERT INTO CONTA_DF (Codigo_Conta_DF, Descricao, Tipo, Natureza, Nivel, Classe, Modelo_Id)
+                                        VALUES (@Codigo_Conta_DF, @Descricao, @Tipo, @Natureza, @Nivel, @Classe, @Modelo_Id)";
 
                 // trocamos os parametros
 
-                
-                //comando.Parameters.AddWithValue("@Cong", );
-
+                comando.Parameters.AddWithValue("@Codigo_Conta_DF", obj.CodigoContaDF);
+                comando.Parameters.AddWithValue("@Descricao", obj.Descricao.Trim());
+                comando.Parameters.AddWithValue("@Tipo", obj.Tipo.Trim());
+                comando.Parameters.AddWithValue("@Natureza", obj.Natureza.Trim());
+                comando.Parameters.AddWithValue("@Nivel", obj.Nivel);
+                comando.Parameters.AddWithValue("@Classe", obj.Classe);
+                comando.Parameters.AddWithValue("@Modelo_Id", modeloID);
 
                 // abre conexao com DB
                 conn.Open();
-
 
                 // executamos o comando para inserir no BD
                 result = comando.ExecuteNonQuery() >= 1 ? true : false;
@@ -76,13 +81,59 @@ namespace ZAPNET.DemoFina.Services
 
         }
 
+        public bool Add(ContaDF obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool Delete(ContaDF obj)
         {
             throw new NotImplementedException();
         }
 
+        public bool DeleteContaDF(ContaDF obj)
+        {
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = @"DELETE FROM CONTA_DF WHERE Id=@Id AND Modelo_Id=@Modelo_Id";
+
+                // trocamos os parametros
+                comando.Parameters.AddWithValue("@Id", obj.Id);
+                comando.Parameters.AddWithValue("@Modelo_Id", obj.ModeloDF.Id);
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executamos o comando para inserir no BD
+                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+
+            }
+
+            return result;
+        }
+
         public List<ContaDF> FindAll(int ? idModelo)
         {
+            ModeloDF modelo = new ModeloDAO().FindByModeloID((int)idModelo);
             List<ContaDF> lista = new List<ContaDF>();
 
 
@@ -106,15 +157,17 @@ namespace ZAPNET.DemoFina.Services
                 // executa o comando SQL
                 using (var dr = comando.ExecuteReader())
                 {
-
-
                     while (dr.Read())
                     {
                         var contaDF = new ContaDF();
                         contaDF.Id = Convert.ToInt32(dr["Id"]);
+                        contaDF.CodigoContaDF = Convert.ToInt32(dr["Codigo_Conta_DF"]);
                         contaDF.Descricao = Convert.ToString(dr["Descricao"].ToString());
                         contaDF.Tipo = Convert.ToString(dr["Tipo"].ToString());
-
+                        contaDF.Nivel = Convert.ToInt32(dr["Nivel"]);
+                        contaDF.Natureza = Convert.ToString(dr["Natureza"].ToString());
+                        contaDF.Classe = Convert.ToString(dr["Classe"].ToString());
+                        contaDF.ModeloDF = modelo;
 
                         lista.Add(contaDF);
                     }
@@ -136,7 +189,50 @@ namespace ZAPNET.DemoFina.Services
 
         public ContaDF FindById(int id)
         {
-            throw new NotImplementedException();
+            ContaDF conta = new ContaDF();
+
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "SELECT * FROM CONTA_DF WHERE ID = @ID";
+
+                // trocamos os parametros                
+                comando.Parameters.AddWithValue("@ID", id);
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executa o comando SQL
+                using (var dr = comando.ExecuteReader())
+                {
+                    dr.Read();
+                    conta.Id = Convert.ToInt32(dr["Id"]);
+                    conta.CodigoContaDF = Convert.ToInt32(dr["Codigo_Conta_DF"]);
+                    conta.Descricao = Convert.ToString(dr["Descricao"].ToString());
+                    conta.Tipo = Convert.ToString(dr["Tipo"].ToString());
+                    conta.Nivel = Convert.ToInt32(dr["Nivel"]);
+                    conta.Natureza = Convert.ToString(dr["Natureza"].ToString());
+                    conta.Classe = Convert.ToString(dr["Classe"].ToString());
+                    conta.ModeloDF =  new ModeloDAO().FindByModeloID(Convert.ToInt32(dr["Modelo_Id"].ToString()));
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return conta;
         }
 
         public bool Update(ContaDF obj)

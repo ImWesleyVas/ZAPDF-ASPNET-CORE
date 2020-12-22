@@ -17,6 +17,11 @@ namespace ZAPNET.DemoFina.Controllers
             return View();
         }
 
+        public IActionResult FindByIdModelo(int id)
+        {
+            return View(modeloDAO.FindByModeloID(id));
+        }
+
         public IActionResult ListaModelos(int? id)
         {
             return View(modeloDAO.FindAllModelos(id));

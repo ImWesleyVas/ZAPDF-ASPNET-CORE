@@ -18,7 +18,8 @@ namespace ZAPNET.DemoFina.DAL
 
         public ModeloDF FindByModeloID(int id)
         {
-            return repo.FindById(id);
+            ModeloDF modelo = repo.FindById(id);
+            return modelo;
         }
 
         public bool Salvar(ModeloDF modelo)

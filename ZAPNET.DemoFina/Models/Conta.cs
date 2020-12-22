@@ -1,4 +1,6 @@
-﻿namespace ZAPNET.DemoFina.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ZAPNET.DemoFina.Models
 {
     public class Conta : IConta
     {
@@ -6,6 +8,7 @@
         public string Descricao { get; set; }
         public string Tipo { get; set; }
         public string Natureza { get; set; }
+        [Range(1, 9)]
         public int Nivel { get; set; }
         public string Classe { get; set; }
 

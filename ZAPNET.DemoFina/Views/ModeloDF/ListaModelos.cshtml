@@ -10,11 +10,17 @@
     <a asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
 </p>
 
+@if (@ViewData["Sucesso"] != null)
+{
+    <div class="alert-success">@ViewData["Sucesso"]</div>
+}
+
+
 @foreach (var item in Model)
 {
     <div class="modal-content">
 
-        <table class="table">
+        <table class="table" style="margin-bottom: 0px;">
             <thead>
                 <tr>
                     <th>
@@ -30,10 +36,10 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Id)
+                        <h4><strong>@Html.DisplayFor(modelItem => item.Id)</strong></h4>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Nome)
+                        <h4><strong>@Html.DisplayFor(modelItem => item.Nome)</strong></h4>
                     </td>
                     <td style="display:block; text-align:right">
                         @Html.ActionLink("Editar", "AddModelo", null, new { id = item.Id }, new { @class = "btn btn-primary" }) |
