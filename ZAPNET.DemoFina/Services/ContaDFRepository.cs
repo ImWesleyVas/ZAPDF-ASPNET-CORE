@@ -157,6 +157,9 @@ namespace ZAPNET.DemoFina.Services
                 // executa o comando SQL
                 using (var dr = comando.ExecuteReader())
                 {
+                   
+
+                    
                     while (dr.Read())
                     {
                         var contaDF = new ContaDF();

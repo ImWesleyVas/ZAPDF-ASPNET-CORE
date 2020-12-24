@@ -2,12 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Models.ModelView;
+
 
 namespace ZAPNET.DemoFina.Controllers
 {
@@ -28,13 +26,21 @@ namespace ZAPNET.DemoFina.Controllers
         [HttpGet]
         public IActionResult ListaContasDF(int Id)
         {
-            List<ContaDF> modelo = new List<ContaDF>();
-            modelo = new ContaDFDAO().findAllContasDF(Id);
+            List<ContaDF> contasDF = new List<ContaDF>();
+            contasDF = new ContaDFDAO().findAllContasDF(Id);
 
-            return View(modelo);
+            //resolvendo o problema da lista vazia... 
+            if (contasDF.Count == 0)
+            {
+                ViewBag.Modelo = new ModeloDAO().FindByModeloID(Id);
+                return View();
+            }
+
+            ViewBag.Modelo = new ModeloDAO().FindByModeloID(Id);
+            return View(contasDF);
         }
 
-        
+
         [HttpGet]
         public IActionResult AddContaDF(int Id)
         {
@@ -51,11 +57,11 @@ namespace ZAPNET.DemoFina.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(modelo.ContaDF.Id == 0 && modelo.ModeloDF.Id > 0)
+                    if (modelo.ContaDF.Id == 0 && modelo.ModeloDF.Id > 0)
                     {
                         new ContaDFDAO().Salvar(modelo.ModeloDF, modelo.ContaDF);
                         return RedirectToAction("ListaContasDF", new { id = modelo.ModeloDF.Id });
-                    }                   
+                    }
                 }
 
                 return View();
@@ -76,11 +82,11 @@ namespace ZAPNET.DemoFina.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if(conta.Id > 0 && conta.ModeloDF.Id > 0)
+                    if (conta.Id > 0 && conta.ModeloDF.Id > 0)
                     {
-                        new ContaDFDAO().Excluir(conta);                        
+                        new ContaDFDAO().Excluir(conta);
                         return RedirectToAction("ListaContasDF", new { id = conta.ModeloDF.Id });
-                    }                   
+                    }
                 }
 
                 return View();

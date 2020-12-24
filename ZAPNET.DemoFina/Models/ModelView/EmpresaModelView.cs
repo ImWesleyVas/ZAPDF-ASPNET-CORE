@@ -7,7 +7,7 @@ namespace ZAPNET.DemoFina.Models.ModelView
 {
     public class EmpresaModelView
     {
-        public Empresa Empresa{ get; set; }
+        public Empresa Empresa { get; set; }
         public Endereco Endereco { get; set; }
 
         public EmpresaModelView()
@@ -16,3 +16,6 @@ namespace ZAPNET.DemoFina.Models.ModelView
         }
     }
 }
+
+
+

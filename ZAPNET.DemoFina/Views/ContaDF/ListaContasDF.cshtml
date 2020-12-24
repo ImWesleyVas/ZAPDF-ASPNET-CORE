@@ -6,12 +6,12 @@
 }
 
 <div style="display:block; text-align:center">
-    <h2>@Html.DisplayFor(model => model.First().ModeloDF.Id) - @Html.DisplayFor(model => model.First().ModeloDF.Nome) </h2>
+    <h2>@Html.ViewBag.Modelo.Id - @Html.ViewBag.Modelo.Nome </h2>
 </div>
 
 <div class="container">
     <div class="col-sm-6">
-        <a asp-action="AddContaDF" asp-route-id=@Model.First().ModeloDF.Id class="btn btn-primary">Nova Conta</a>
+        <a asp-action="AddContaDF" asp-route-id=@ViewBag.Modelo.Id class="btn btn-primary">Nova Conta</a>
     </div>
     <div class="col-sm-6" style="text-align:right; padding-right:50px">
         <a asp-controller="ModeloDF" asp-action="ListaModelos" class="btn btn-warning">Voltar</a>
@@ -46,35 +46,38 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
+            @if (Model != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CodigoContaDF)
-                    </td>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CodigoContaDF)
+                        </td>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descricao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Natureza)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nivel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Classe)
-                    </td>
-                    <td style="text-align:right">
-                        @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
-                        @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning" })
-                        @Html.ActionLink("Excluir", "ExcluiContaDF", new {id = item.Id }, new { @class = "btn btn-danger" })
-                        @Html.ActionLink("Relacionar Cosif", "RelacionarCosif", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info" })
-                    </td>
-                </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descricao)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tipo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Natureza)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nivel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Classe)
+                        </td>
+                        <td style="text-align:right">
+                            @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
+                            @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning" })
+                            @Html.ActionLink("Excluir", "ExcluiContaDF", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Relacionar Cosif", "RelacionarDFCosif", "RelacoesPeriodoRef", new { id = item.Id }, new { @class = "btn btn-info" })
+                        </td>
+                    </tr>
+                }
             }
         </tbody>
     </table>
