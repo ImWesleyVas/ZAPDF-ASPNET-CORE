@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 
 namespace ZAPNET.DemoFina.Services
 {
-    interface ICrudRepository<T>
+    public interface ICrudRepository<T>
     {
-        bool Add(T obj);
+        Task<bool> Add(int? id, T obj);
         bool Delete(T obj);
         bool Update(T obj);
         T FindById(int id);
-        List<T> FindAll(int? id);
+        Task<List<T>> FindAll(int? id);
+        
     }
 }

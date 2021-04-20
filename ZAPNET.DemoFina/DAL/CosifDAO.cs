@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
 
@@ -10,17 +11,22 @@ namespace ZAPNET.DemoFina.DAL
     public class CosifDAO
     {
 
-        CosifRepository repo = new CosifRepository();
+        private readonly ICosifRepository  repo;
 
-        public bool SalvaArquivoCosif(List<string[]> lista)
+        public CosifDAO(ICosifRepository repo)
         {
-            List<string[]> contasCosif = lista.Where(x => x[0] != "#PLANO").ToList();
-            return repo.ImportaCosifCSV(contasCosif);
+            this.repo = repo;
         }
 
-        public List<Cosif> findAllCosif(int? id)
+        public async Task<bool> SalvaArquivoCosifAsync(List<string[]> lista)
+        {
+            List<string[]> contasCosif = lista.Where(x => x[0] != "#PLANO").ToList();
+            return await repo.ImportaCosifCSVAsync(contasCosif);
+        }
+
+        public async Task<List<Cosif>> findAllCosifAsync()
         {            
-            return repo.FindAll(id);
+            return await repo.FindAllCosifAsync();
         }
     }
 }

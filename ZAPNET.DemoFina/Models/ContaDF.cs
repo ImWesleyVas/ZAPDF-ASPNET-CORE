@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Models
 {
@@ -13,7 +14,8 @@ namespace ZAPNET.DemoFina.Models
         {
         }
 
-        public ContaDF(int id, int codigoConta, string descricao, string tipo, string natureza, int nivel, string classe, ModeloDF modeloDF) : base(id, descricao, tipo, natureza, nivel, classe)
+        public ContaDF(int id, int codigoConta, string descricao, string tipo, string natureza, int nivel, string classe, ModeloDF modeloDF) 
+            : base(id, descricao, tipo, natureza, nivel, classe)
         {
             CodigoContaDF = codigoConta;
             ModeloDF = modeloDF;

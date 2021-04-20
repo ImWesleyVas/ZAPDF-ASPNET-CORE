@@ -5,15 +5,21 @@ using System.Threading.Tasks;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
 
+
 namespace ZAPNET.DemoFina.DAL
 {
     public class ModeloDAO
     {
-        private ICrudRepository<ModeloDF> repo = new ModeloDFRepository();
+        private ICrudRepository<ModeloDF> repo;
 
-        public List<ModeloDF> FindAllModelos(int? id)
+        public ModeloDAO(ICrudRepository<ModeloDF> repo)
         {
-            return repo.FindAll(id);
+            this.repo = repo;
+        }
+
+        public async Task<List<ModeloDF>> FindAllModelosAsync(int? id)
+        {
+            return await repo.FindAll(id);
         }
 
         public ModeloDF FindByModeloID(int id)
@@ -22,15 +28,16 @@ namespace ZAPNET.DemoFina.DAL
             return modelo;
         }
 
-        public bool Salvar(ModeloDF modelo)
+        public async Task<bool> Salvar(ModeloDF modelo)
         {
-            return repo.Add(modelo);
+            return await repo.Add(0, modelo);
         }
 
         public bool Update(ModeloDF modelo)
         {
             return repo.Update(modelo);
         }
+
     }
 }
 

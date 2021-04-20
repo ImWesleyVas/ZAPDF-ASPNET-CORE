@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Models
 {

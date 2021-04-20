@@ -9,12 +9,18 @@ namespace ZAPNET.DemoFina.DAL
 {
     public class ContaDFDAO
     {
+        ICrudRepository<ContaDF> repo;
 
-        ContaDFRepository repo = new ContaDFRepository();
-
-        public List<ContaDF> findAllContasDF(int? id)
+        public ContaDFDAO(ICrudRepository<ContaDF> repo)
         {
-            return repo.FindAll(id);
+            this.repo = repo;
+        }
+
+        //ContaDFRepository repo = new ContaDFRepository();
+
+        public async Task<List<ContaDF>> findAllContasDFAsync(int? id)
+        {
+            return await repo.FindAll(id);
         }
 
         public ContaDF findByIDContasDF(int id)
@@ -22,14 +28,14 @@ namespace ZAPNET.DemoFina.DAL
             return repo.FindById(id);
         }
 
-        public bool Salvar(ModeloDF modelo, ContaDF conta)
+        public async Task<bool> SalvarAsync(ModeloDF modelo, ContaDF conta)
         {
-           return repo.AddContaDF(modelo.Id, conta);
+           return await repo.Add(modelo.Id, conta);
         }
 
         public bool Excluir(ContaDF conta)
         {
-            return repo.DeleteContaDF( conta);
+            return repo.Delete(conta);
         }
 
     }

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ZAPNET.DemoFina.Contas\ZAPNET.DemoFina.Contas.csproj" />
+    <ProjectReference Include="..\ZAPNET.DemoFina.Empresa\ZAPNET.DemoFina.Empresa.csproj" />
+    <ProjectReference Include="..\ZAPNET.DemoFina.Util\ZAPNET.DemoFina.Util.csproj" />
+  </ItemGroup>
+
+</Project>

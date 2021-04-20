@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -11,17 +12,21 @@ namespace ZAPNET.DemoFina.Services
 {
     public class ModeloDFRepository : ICrudRepository<ModeloDF>
     {
-
+       
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
 
-        public ModeloDFRepository()
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ConnectionDB Conexao;
+
+        public ModeloDFRepository(ConnectionDB conexao)
         {
+            Conexao = conexao;
 
             if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
             if (comando == null)
@@ -29,10 +34,9 @@ namespace ZAPNET.DemoFina.Services
                 comando = new SqlCommand();
 
             }
-
         }
 
-        public bool Add(ModeloDF obj)
+        public async Task<bool> Add(int? id, ModeloDF obj)
         {
 
             try
@@ -55,7 +59,7 @@ namespace ZAPNET.DemoFina.Services
 
 
                 // executamos o comando para inserir no BD
-                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+                result = await comando.ExecuteNonQueryAsync() >= 1 ? true : false;
             }
             catch (Exception e)
             {
@@ -79,7 +83,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<ModeloDF> FindAll(int? id)
+        public async Task<List<ModeloDF>> FindAll(int? id)
         {
             List<ModeloDF> lista = new List<ModeloDF>();
 
@@ -99,11 +103,11 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executa o comando SQL
-                using (var dr = comando.ExecuteReader())
+                using (var dr = await comando.ExecuteReaderAsync())
                 {
 
 
-                    while (dr.Read())
+                    while (await dr.ReadAsync())
                     {
                         var modelo = new ModeloDF();
                         modelo.Id = Convert.ToInt32(dr["Id"]);

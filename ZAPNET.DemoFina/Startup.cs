@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ZAPNET.DemoFina.DB;
+using ZAPNET.DemoFina.Models;
+using ZAPNET.DemoFina.Services;
 
 namespace ZAPNET.DemoFina
 {
@@ -21,6 +20,8 @@ namespace ZAPNET.DemoFina
 
         public IConfiguration Configuration { get; }
 
+
+        // Adicionar os serviços
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -31,10 +32,34 @@ namespace ZAPNET.DemoFina
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            
+            // Adicionando a minha ApplicationContext, para fazer a injeção de dependência, com uso do SQLServer.
+            services.AddDbContext<ZAPNETApplicationContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+            services.AddDbContext<ConnectionDB>(options =>
+                   options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+
+            //INJEÇÃO DE DEPENDENCIA
+            //ContaDFRepository
+            services.AddTransient<ICrudRepository<ContaDF>, ContaDFRepository>();
+            //EnderecoRepository
+            services.AddTransient<ICrudRepository<Endereco>, EnderecoRepository>();
+            //EmpresaRepository
+            services.AddTransient<ICrudRepository<Empresa>, EmpresaRepository>();
+            //CosifRepository
+            services.AddTransient<ICosifRepository, CosifRepository>();
+            //RelaContaDFCosifRepository
+            services.AddTransient<IRelaContaDFCosifRepository, RelaContaDFCosifRepository>();
+            //ModeloDFRepository
+            services.AddTransient<ICrudRepository<ModeloDF>, ModeloDFRepository>();
+
         }
 
+        // Consome os serviços, utilizar os serviços
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {

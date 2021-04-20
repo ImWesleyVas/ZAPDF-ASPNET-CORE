@@ -2,13 +2,31 @@
 
 @{
     ViewData["Title"] = "ListaModelos";
+    var MesAno = "";
 }
+
+
+
 
 <h2>Modelos de Demonstrações</h2>
 
-<p>
-    <a asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
-</p>
+<div class="container">
+    <div id="addModelo" class="col-lg-6" style="padding-top: 18px">
+        <a asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
+    </div>
+    <form method="post">
+        <div class="form-group col-lg-6" style="text-align:right; padding-right:50px">
+            <label> Selecione o mês</label>
+            <br />
+            <!-- SELECIONAR MÊS -->
+            <input type="month" id="mes" name="mes" />
+            <button type="submit" class="btn btn-success" onclick="GuardaMes()"><strong>OK</strong></button>
+            <button class="btn btn-danger" onclick="LimpaMes()"><strong> &Chi; </strong></button>
+        </div>
+    </form>
+</div>
+
+
 
 @if (@ViewData["Sucesso"] != null)
 {
@@ -53,4 +71,14 @@
 
     </div>
     <br />
+}
+
+@section Scripts {
+
+    <script>
+    function GuardaMes(string mesAno) {
+        @MesAno = mesAno;
+    }
+    </script>
+
 }

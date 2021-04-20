@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.DB;
@@ -12,17 +11,21 @@ namespace ZAPNET.DemoFina.Services
 {
     public class ContaDFRepository : ICrudRepository<ContaDF>
     {
-
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
 
-        public ContaDFRepository()
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ICrudRepository<ModeloDF> _repo;
+
+        public ContaDFRepository(ConnectionDB conexao, ICrudRepository<ModeloDF> repo)
         {
+            
+            _repo = repo;
 
             if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
             if (comando == null)
@@ -30,13 +33,21 @@ namespace ZAPNET.DemoFina.Services
                 comando = new SqlCommand();
 
             }
-
         }
+
 
         public bool AddContaDF(int modeloID, ContaDF obj)
         {
+            
+            throw new NotImplementedException();
+
+        }
+
+        public async Task<bool> Add(int? modeloID, ContaDF obj)
+        {
             try
             {
+                
                 // adiciona a propriedade connection ao respectivo objeto de conexao
                 comando.Connection = conn;
 
@@ -61,7 +72,7 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executamos o comando para inserir no BD
-                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+                result = await (comando.ExecuteNonQueryAsync()) >= 1 ? true : false;
             }
             catch (Exception e)
             {
@@ -78,20 +89,9 @@ namespace ZAPNET.DemoFina.Services
             }
 
             return result;
-
-        }
-
-        public bool Add(ContaDF obj)
-        {
-            throw new NotImplementedException();
         }
 
         public bool Delete(ContaDF obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool DeleteContaDF(ContaDF obj)
         {
             try
             {
@@ -131,9 +131,14 @@ namespace ZAPNET.DemoFina.Services
             return result;
         }
 
-        public List<ContaDF> FindAll(int ? idModelo)
+        public bool DeleteContaDF(ContaDF obj)
         {
-            ModeloDF modelo = new ModeloDAO().FindByModeloID((int)idModelo);
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<ContaDF>> FindAll(int ? idModelo)
+        {
+            ModeloDF modelo = new ModeloDAO(_repo).FindByModeloID((int)idModelo);
             List<ContaDF> lista = new List<ContaDF>();
 
 
@@ -155,12 +160,9 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executa o comando SQL
-                using (var dr = comando.ExecuteReader())
-                {
-                   
-
-                    
-                    while (dr.Read())
+                using (var dr = await comando.ExecuteReaderAsync())
+                {   
+                    while (await dr.ReadAsync())
                     {
                         var contaDF = new ContaDF();
                         contaDF.Id = Convert.ToInt32(dr["Id"]);
@@ -222,7 +224,7 @@ namespace ZAPNET.DemoFina.Services
                     conta.Nivel = Convert.ToInt32(dr["Nivel"]);
                     conta.Natureza = Convert.ToString(dr["Natureza"].ToString());
                     conta.Classe = Convert.ToString(dr["Classe"].ToString());
-                    conta.ModeloDF =  new ModeloDAO().FindByModeloID(Convert.ToInt32(dr["Modelo_Id"].ToString()));
+                    conta.ModeloDF =  new ModeloDAO(_repo).FindByModeloID(Convert.ToInt32(dr["Modelo_Id"].ToString()));
                 }
             }
             catch (Exception e)

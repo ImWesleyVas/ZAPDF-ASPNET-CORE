@@ -13,18 +13,28 @@ namespace ZAPNET.DemoFina.Controllers
 {
     public class EmpresaController : Controller
     {
-        EmpresaRepository repo;
-        EmpresaDAL empresaDal;
+        ICrudRepository<Empresa> _repo;
+        EmpresaDAL _empresaDal;
+
+        public EmpresaController(ICrudRepository<Empresa> repo)
+        {
+            _repo = repo;
+            _empresaDal = new EmpresaDAL(_repo);
+        }
+
+        
+
+
 
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult ListaEmpresas(int? id)
+        public async Task<IActionResult> ListaEmpresas(int? id)
         {
          
-           return View(new EmpresaDAL().FindAllEmpresas(id));
+           return View(await (new EmpresaDAL(_repo).FindAllEmpresas(id)));
 
         }
 
@@ -36,7 +46,7 @@ namespace ZAPNET.DemoFina.Controllers
         
 
         [HttpPost]
-        public IActionResult CadastroEmpresa(EmpresaModelView formulario)
+        public async Task<IActionResult> CadastroEmpresa(EmpresaModelView formulario)
         {
              /*Empresa empresa = new Empresa();
              Endereco endereco = new Endereco();
@@ -60,13 +70,13 @@ namespace ZAPNET.DemoFina.Controllers
 
 
 
-            empresaDal = new EmpresaDAL();
+            _empresaDal = new EmpresaDAL(_repo);
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (empresaDal.Salvar(formulario.Empresa))
+                    if (await _empresaDal.Salvar(formulario.Empresa))
                     {
                         ViewData["Sucesso"] = "Empresa cadastrada com sucesso!!!";
                         return RedirectToAction("ListaEmpresas");

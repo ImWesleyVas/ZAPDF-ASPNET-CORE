@@ -1,16 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
+using ZAPNET.DemoFina.Services;
 
 namespace ZAPNET.DemoFina.Controllers
 {
     public class ModeloDFController : Controller
     {
-        ModeloDAO modeloDAO = new ModeloDAO();
+
+        private readonly ICrudRepository<ModeloDF> _repo;
+        ModeloDAO modeloDAO;
+
+        public ModeloDFController(ICrudRepository<ModeloDF> repo)
+        {
+            _repo = repo;
+
+            modeloDAO = new ModeloDAO(_repo);
+        }
+
 
         public IActionResult Index()
         {
@@ -22,10 +31,11 @@ namespace ZAPNET.DemoFina.Controllers
             return View(modeloDAO.FindByModeloID(id));
         }
 
-        public IActionResult ListaModelos(int? id)
+        public async Task<IActionResult> ListaModelos(int? id)
         {
-            return View(modeloDAO.FindAllModelos(id));
+            return View(await modeloDAO.FindAllModelosAsync(id));
         }
+               
 
         public IActionResult AddModelo()
         {
@@ -40,7 +50,7 @@ namespace ZAPNET.DemoFina.Controllers
         
         
         [HttpPost]
-        public IActionResult AddModelo(ModeloDF formularioModelo)
+        public async Task<IActionResult> AddModelo(ModeloDF formularioModelo)
         {
             try
             {
@@ -62,7 +72,7 @@ namespace ZAPNET.DemoFina.Controllers
                     }
                     else
                     {
-                        if (modeloDAO.Salvar(formularioModelo))
+                        if (await modeloDAO.Salvar(formularioModelo))
                         {
                             ViewData["Sucesso"] = "Modelo cadastrado com sucesso!!!";
                             return RedirectToAction("ListaModelos");

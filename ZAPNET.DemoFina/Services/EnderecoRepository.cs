@@ -5,52 +5,57 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DB;
+using ZAPNET.DemoFina.Models;
 
 namespace ZAPNET.DemoFina.Services    
 {
-    public class EnderecoRepository<T> : ICrudRepository<T>
+    public class EnderecoRepository : ICrudRepository<Endereco>
     {
         
         SqlConnection conn = null;
         SqlCommand comando = null;
 
-        public EnderecoRepository()
-        {
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ConnectionDB Conexao;
 
-            if(conn == null)
+        public EnderecoRepository(ConnectionDB conexao)
+        {
+            Conexao = conexao;
+
+            if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
-            if(comando == null)
+            if (comando == null)
             {
                 comando = new SqlCommand();
 
             }
-
         }
 
-        public bool Delete(T obj)
+
+        public bool Delete(Endereco obj)
         {
             throw new NotImplementedException();
         }
 
-        public List<T> FindAll(int? id)
+        public async Task<List<Endereco>> FindAll(int? id)
         {
             throw new NotImplementedException();
         }
 
-        public T FindById(int id)
+        public Endereco FindById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public bool Add(T Obj)
+        public async Task<bool> Add(int? id, Endereco Obj)
         {
             throw new NotImplementedException();
         }
 
-        public bool Update(T obj)
+        public bool Update(Endereco obj)
         {
             throw new NotImplementedException();
         }

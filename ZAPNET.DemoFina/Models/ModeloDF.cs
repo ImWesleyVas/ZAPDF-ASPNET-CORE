@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ZAPNET.DemoFina;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Models
 {
@@ -11,7 +13,7 @@ namespace ZAPNET.DemoFina.Models
         public string Nome { get; set; }
 
         private List<Empresa> empresas = new List<Empresa>();
-        private List<ContaDF> contasDF = new List<ContaDF>();
+        private List<Endereco> contasDF = new List<Endereco>();
 
         public ModeloDF()
         {
@@ -30,7 +32,7 @@ namespace ZAPNET.DemoFina.Models
             empresas.Add(empresa);
         }
 
-        public void addContaRubricaDF(ContaDF contaRubrica)
+        public void addContaRubricaDF(Endereco contaRubrica)
         {
             contasDF.Add(contaRubrica);
         }

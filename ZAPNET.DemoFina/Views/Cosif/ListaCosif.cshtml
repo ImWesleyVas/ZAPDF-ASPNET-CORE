@@ -19,82 +19,97 @@
 </div>
 <br />
 
-<div class="modal-content">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.ContaCosif)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Descricao)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Tipo)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Natureza)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Nivel)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Classe)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+<div class="modal-content" data-role="page">
+    <table class="table" role="listbox">
+
+
+        @{ const int TAMANHO_PAGINA = 20;
+
+            int paginas = (int)Math.Ceiling((double)Model.Count() / TAMANHO_PAGINA); }
+
+        @for (int pagina = 0; pagina < paginas; pagina++)
+        {
+
+
+            <thead>
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ContaCosif)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Descricao)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Tipo)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Natureza)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Nivel)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Classe)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ContaCosif)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Descricao)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Tipo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Natureza)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Nivel)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Classe)
+                    </th>
+                    <th></th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li>
-                <a href="#" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">5</a></li>
-            <li>
-                <a href="#" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-</div>
-<div class="form-group" style="padding: 15px 5px 5px 5px">
-    <a type="button" asp-controller="Cosif" asp-action="ImportarCosif" class="btn btn-block btn-primary">Importar Cosif</a>
-</div>
+            </thead>
+            <tbody>
+
+                @{ var produtosDaPagina = Model.Skip(pagina * TAMANHO_PAGINA).Take(TAMANHO_PAGINA);}
+
+                @foreach (var item in produtosDaPagina)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ContaCosif)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Descricao )
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tipo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Natureza)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Nivel)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Classe)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        }
+        </table>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="form-group" style="padding: 15px 5px 5px 5px">
+            <a type="button" asp-controller="Cosif" asp-action="ImportarCosif" class="btn btn-block btn-primary">Importar Cosif</a>
+        </div>

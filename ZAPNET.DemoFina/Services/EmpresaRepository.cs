@@ -2,27 +2,31 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
-
 
 namespace ZAPNET.DemoFina.Services
 {
     public class EmpresaRepository : ICrudRepository<Empresa>
     {
 
+
+
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
 
-        public EmpresaRepository()
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ConnectionDB Conexao;
+
+        public EmpresaRepository(ConnectionDB conexao)
         {
+            Conexao = conexao;
 
             if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
             if (comando == null)
@@ -30,12 +34,11 @@ namespace ZAPNET.DemoFina.Services
                 comando = new SqlCommand();
 
             }
-
         }
 
 
 
-        public bool Add(Empresa obj)
+        public async Task<bool> Add(int? id, Empresa obj)
         {
 
             try
@@ -122,7 +125,7 @@ namespace ZAPNET.DemoFina.Services
 
 
                 // executamos o comando para inserir no BD
-                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+                result = await comando.ExecuteNonQueryAsync() >= 1 ? true : false;
             }
             catch (Exception e)
             {
@@ -147,7 +150,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<Empresa> FindAll(int? id)
+        public async Task<List<Empresa>> FindAll(int? id)
         {
             List<Empresa> lista = new List<Empresa>();
 
@@ -166,11 +169,11 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executa o comando SQL
-                using (var dr = comando.ExecuteReader())
+                using (var dr = await comando.ExecuteReaderAsync())
                 {
                     
 
-                    while (dr.Read())
+                    while (await dr.ReadAsync())
                     {
                         var empresa = new Empresa();
                         empresa.Id = Convert.ToInt32(dr["Id"]);

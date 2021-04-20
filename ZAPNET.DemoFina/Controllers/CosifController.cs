@@ -8,33 +8,38 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
+using ZAPNET.DemoFina.Services;
 using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Controllers
 {
     public class CosifController : Controller
     {
+        private readonly ICosifRepository _repo;
 
         //Define uma instância de IHostingEnvironment
-        IHostingEnvironment _appEnvironment;
+        private readonly IHostingEnvironment _appEnvironment;
+
+        private readonly CosifDAO _cosifDao;
+        public CosifController(ICosifRepository repo, IHostingEnvironment appEnvironment)
+        {
+            _repo = repo;
+            _appEnvironment = appEnvironment;
+            _cosifDao = new CosifDAO(_repo);
+        }
 
         ArquivoCSV _arquivo;
 
         List<string[]> _listaCosif;
-
-        CosifDAO _cosifDao = new CosifDAO();
+         
 
         //Injeta a instância no construtor para poder usar os recursos
-        public CosifController(IHostingEnvironment env)
-        {
-            _appEnvironment = env;
-          
-        }
 
-   
-        public IActionResult ListaCosif(int? id)
+
+
+        public async Task<IActionResult> ListaCosif()
         {
-            return View(_cosifDao.findAllCosif(id));
+            return View( await _cosifDao.findAllCosifAsync());
         }
 
 
@@ -96,7 +101,7 @@ namespace ZAPNET.DemoFina.Controllers
                 _arquivo = new ArquivoCSV(caminhoDestinoArquivoOriginal);
                 _listaCosif = _arquivo.ReadFile();
                 // passando a lista para o camada DAL
-                _cosifDao.SalvaArquivoCosif(_listaCosif);
+                await _cosifDao.SalvaArquivoCosifAsync(_listaCosif);
 
             }
 

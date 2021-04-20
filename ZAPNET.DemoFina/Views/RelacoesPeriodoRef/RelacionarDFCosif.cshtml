@@ -2,17 +2,59 @@
 
 @{
     ViewData["Title"] = "RelacionarDFCosif";
+
+    var lista = Model.ListaCosifs
+        .Select(c => new
+        {
+            IdCosif = c.Id,
+            ContaCosif = c.ContaCosif,
+            MesclaContaDescr = c.ContaCosif + " " + c.Descricao,
+            Descricao = c.Descricao,
+            Tipo = c.Tipo,
+            Nivel = c.Nivel
+        })
+        .ToList();
+
+    var listaRelacoes = new MultiSelectList(lista, "ContaCosif", "MesclaContaDescr");
+
 }
 
-<h2>RelacionarDFCosif</h2>
+
+
+<h2>Relacionar contas Cosif </h2>
 
 <div>
-    <h4>RelacaoPeriodoRefModelView</h4>
+    <h4><strong>Rubrica DF: </strong> @Model.ContaDF.CodigoContaDF - @Model.ContaDF.Descricao</h4>
     <hr />
     <dl class="dl-horizontal">
     </dl>
 </div>
 <div>
+    <div >
+        <div class="col-lg-5" style="display:block">
+            <h3>Contas Cosif</h3>
+            @Html.ListBox("ContaCosif", (MultiSelectList)ViewBag.Cosif, new { size = 30 })
+        </div>
+        
+        <div class="col-lg-2" style="margin-top: 20%; margin-bottom: 20%">
+            <div>
+                <button class="btn btn-block btn-default"><strong>Incluir &#9658;</strong></button>
+            </div>
+            <br />
+            <div>
+                <button class="btn btn-block btn-default" ><strong>&#9668; Excluir</strong></button>
+            </div>
+            
+        </div>
+        <div class="col-lg-5" style="display:block">
+            <h3>Relacionadas</h3>
+
+            @Html.ListBox("ContaCosif", (MultiSelectList)listaRelacoes, new { size = 30 })
+
+        </div>
+
+
+    </div>
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>

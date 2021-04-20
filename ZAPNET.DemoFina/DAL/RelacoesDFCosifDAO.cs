@@ -10,13 +10,17 @@ namespace ZAPNET.DemoFina.DAL
 {
     public class RelacoesDFCosifDAO
     {
-        private RelaContaDFCosifRepository repo = new RelaContaDFCosifRepository();
+        private IRelaContaDFCosifRepository repo;
 
+        public RelacoesDFCosifDAO(IRelaContaDFCosifRepository repo)
+        {
+            this.repo = repo;
+        }
 
-        public List<Cosif> CosifbyContaDFList(int modeloId, int contaDFId )
+        public async Task<List<Cosif>> CosifbyContaDFList(int modeloId, int contaDFId )
         {
 
-            return repo.ListaCosifRelaByContaDF(modeloId, contaDFId);
+            return await repo.ListaCosifRelaByContaDF(modeloId, contaDFId);
         }
 
     }

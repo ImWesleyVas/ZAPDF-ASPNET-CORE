@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using ZAPNET.DemoFina.Util;
+using ZAPNET.DemoFina.Models.Enumerator;
+using ZAPNET.DemoFina.Models;
 
 namespace ZAPNET.DemoFina.Models
 {

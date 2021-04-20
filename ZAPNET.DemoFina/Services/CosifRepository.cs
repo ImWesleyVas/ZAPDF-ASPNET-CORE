@@ -2,26 +2,29 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
 
 namespace ZAPNET.DemoFina.Services
 {
-    public class CosifRepository : ICrudRepository<Cosif>
+    public class CosifRepository : ICosifRepository
     {
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
         int contador = 0;
 
-        public CosifRepository()
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ConnectionDB Conexao;
+
+        public CosifRepository(ConnectionDB conexao)
         {
+            Conexao = conexao;
 
             if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
             if (comando == null)
@@ -29,10 +32,9 @@ namespace ZAPNET.DemoFina.Services
                 comando = new SqlCommand();
 
             }
-
         }
 
-        public bool ImportaCosifCSV(List<string[]> contasCosif)
+        public async Task<bool> ImportaCosifCSVAsync(List<string[]> contasCosif)
         {
             try
             {
@@ -65,7 +67,7 @@ namespace ZAPNET.DemoFina.Services
                     comando.Parameters.AddWithValue("@CONTA_GRUPO", conta[9].Trim());
 
                     // executamos o comando para inserir no BD e retorna 1 a cada execução
-                    contador += comando.ExecuteNonQuery();
+                    contador += await comando.ExecuteNonQueryAsync();
 
                     comando.Parameters.Clear();
 
@@ -73,7 +75,7 @@ namespace ZAPNET.DemoFina.Services
                 }
 
                 comando.CommandText = "exec dbo.sp_carrega_plano_cosif";
-                contador += comando.ExecuteNonQuery();
+                contador += await comando.ExecuteNonQueryAsync();
 
                 result = contador >= 1 ? true : false;
             }
@@ -94,7 +96,7 @@ namespace ZAPNET.DemoFina.Services
             return result;
         }
 
-        public bool Add(Cosif obj)
+        public async Task<bool> Add(Cosif obj)
         {
             try
             {
@@ -118,7 +120,7 @@ namespace ZAPNET.DemoFina.Services
 
 
                 // executamos o comando para inserir no BD
-                result = comando.ExecuteNonQuery() >= 1 ? true : false;
+                result = await comando.ExecuteNonQueryAsync() >= 1 ? true : false;
             }
             catch (Exception e)
             {
@@ -143,7 +145,7 @@ namespace ZAPNET.DemoFina.Services
             throw new NotImplementedException();
         }
 
-        public List<Cosif> FindAll(int? id)
+        public async Task<List<Cosif>> FindAllCosifAsync()
         {
             List<Cosif> lista = new List<Cosif>();
 
@@ -163,7 +165,7 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executa o comando SQL
-                using (var dr = comando.ExecuteReader())
+                using (var dr = await comando.ExecuteReaderAsync())
                 {
 
 
@@ -204,6 +206,11 @@ namespace ZAPNET.DemoFina.Services
         }
 
         public bool Update(Cosif obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Cosif>> FindAll(int? id)
         {
             throw new NotImplementedException();
         }

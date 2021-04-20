@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -10,7 +11,7 @@ using ZAPNET.DemoFina.Models.ModelView;
 
 namespace ZAPNET.DemoFina.Services
 {
-    public class RelaContaDFCosifRepository : ICrudRepository<RelacaoPeriodoRefModelView>
+    public class RelaContaDFCosifRepository : IRelaContaDFCosifRepository
     {
 
 
@@ -18,12 +19,16 @@ namespace ZAPNET.DemoFina.Services
         SqlCommand comando = null;
         bool result = false;
 
-        public RelaContaDFCosifRepository()
+        //injeção de dependencia (container e consumo de serviço na startup)
+        private readonly ConnectionDB Conexao;
+
+        public RelaContaDFCosifRepository(ConnectionDB conexao)
         {
+            Conexao = conexao;
 
             if (conn == null)
             {
-                conn = (SqlConnection)ConnectionDB.ObterConexao();
+                conn = conexao.ObterConexao();
             }
 
             if (comando == null)
@@ -31,12 +36,11 @@ namespace ZAPNET.DemoFina.Services
                 comando = new SqlCommand();
 
             }
-
         }
 
 
 
-        public List<Cosif> ListaCosifRelaByContaDF(int idModelo, int contaDF)
+        public async Task<List<Cosif>> ListaCosifRelaByContaDF(int idModelo, int contaDF)
         {
             List<Cosif> listaCosif = new List<Cosif>();
 
@@ -60,9 +64,9 @@ namespace ZAPNET.DemoFina.Services
                 conn.Open();
 
                 // executa o comando SQL
-                using (var dr = comando.ExecuteReader())
+                using (var dr = await comando.ExecuteReaderAsync())
                 {
-                    while (dr.Read())
+                    while (await dr.ReadAsync())
                     {
                         var cosif = new Cosif();
                         cosif.Id = Convert.ToInt32(dr["Id"]);
@@ -92,37 +96,6 @@ namespace ZAPNET.DemoFina.Services
 
             return listaCosif;
         }
-
-
-
-
-        public bool Add(RelacaoPeriodoRefModelView obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Delete(RelacaoPeriodoRefModelView obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<RelacaoPeriodoRefModelView> FindAll(int? id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public RelacaoPeriodoRefModelView FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Update(RelacaoPeriodoRefModelView obj)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
 
 
     }

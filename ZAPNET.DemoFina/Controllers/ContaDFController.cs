@@ -2,16 +2,24 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Models.ModelView;
-
+using ZAPNET.DemoFina.Services;
 
 namespace ZAPNET.DemoFina.Controllers
 {
     public class ContaDFController : Controller
     {
+        private readonly ICrudRepository<ContaDF> _repoContaDF;
+        private readonly ICrudRepository<ModeloDF> _repoModeloDF;
 
+        public ContaDFController(ICrudRepository<ContaDF> repoContaDF, ICrudRepository<ModeloDF> repoModeloDF)
+        {
+            _repoContaDF = repoContaDF;
+            _repoModeloDF = repoModeloDF;
+        }
 
         public IActionResult Index()
         {
@@ -24,19 +32,19 @@ namespace ZAPNET.DemoFina.Controllers
         }
 
         [HttpGet]
-        public IActionResult ListaContasDF(int Id)
+        public async Task<IActionResult> ListaContasDF(int Id)
         {
             List<ContaDF> contasDF = new List<ContaDF>();
-            contasDF = new ContaDFDAO().findAllContasDF(Id);
+            contasDF = await new ContaDFDAO(_repoContaDF).findAllContasDFAsync(Id);
 
             //resolvendo o problema da lista vazia... 
             if (contasDF.Count == 0)
             {
-                ViewBag.Modelo = new ModeloDAO().FindByModeloID(Id);
+                ViewBag.Modelo = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
                 return View();
             }
 
-            ViewBag.Modelo = new ModeloDAO().FindByModeloID(Id);
+            ViewBag.Modelo = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
             return View(contasDF);
         }
 
@@ -45,13 +53,13 @@ namespace ZAPNET.DemoFina.Controllers
         public IActionResult AddContaDF(int Id)
         {
             ModeloDFModelView modelo = new ModeloDFModelView();
-            modelo.ModeloDF = new ModeloDAO().FindByModeloID(Id);
+            modelo.ModeloDF = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
             modelo.ContaDF = new ContaDF();
             return View(modelo);
         } // fim get AddContaDF
 
         [HttpPost]
-        public IActionResult AddContaDF(ModeloDFModelView modelo)
+        public async Task<IActionResult> AddContaDF(ModeloDFModelView modelo)
         {
             try
             {
@@ -59,7 +67,7 @@ namespace ZAPNET.DemoFina.Controllers
                 {
                     if (modelo.ContaDF.Id == 0 && modelo.ModeloDF.Id > 0)
                     {
-                        new ContaDFDAO().Salvar(modelo.ModeloDF, modelo.ContaDF);
+                        await (new ContaDFDAO(_repoContaDF)).SalvarAsync(modelo.ModeloDF, modelo.ContaDF);
                         return RedirectToAction("ListaContasDF", new { id = modelo.ModeloDF.Id });
                     }
                 }
@@ -76,7 +84,7 @@ namespace ZAPNET.DemoFina.Controllers
         [HttpGet]
         public IActionResult ExcluiContaDF(int id)
         {
-            ContaDF conta = new ContaDFDAO().findByIDContasDF(id);
+            ContaDF conta = new ContaDFDAO(_repoContaDF).findByIDContasDF(id);
 
             try
             {
@@ -84,7 +92,7 @@ namespace ZAPNET.DemoFina.Controllers
                 {
                     if (conta.Id > 0 && conta.ModeloDF.Id > 0)
                     {
-                        new ContaDFDAO().Excluir(conta);
+                        new ContaDFDAO(_repoContaDF).Excluir(conta);
                         return RedirectToAction("ListaContasDF", new { id = conta.ModeloDF.Id });
                     }
                 }
