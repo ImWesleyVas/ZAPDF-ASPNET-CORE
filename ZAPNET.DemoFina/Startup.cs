@@ -34,10 +34,16 @@ namespace ZAPNET.DemoFina
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // manter informações na memória (Cache) - Cache Distribuido
+            services.AddDistributedMemoryCache();
+            // adicionando um serviço de sessão, há dependência do serviço de memória (Cache)
+            services.AddSession();
+
+
             
-            // Adicionando a minha ApplicationContext, para fazer a injeção de dependência, com uso do SQLServer.
-            services.AddDbContext<ZAPNETApplicationContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("Default")));
+            // Adicionando a minha ApplicationContext, para obter a conexao e fazer a injeção de dependência, com uso do SQLServer.
+            // services.AddDbContext<ZAPNETApplicationContext>(options =>
+            //        options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddDbContext<ConnectionDB>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("Default")));
@@ -55,7 +61,7 @@ namespace ZAPNET.DemoFina
             //RelaContaDFCosifRepository
             services.AddTransient<IRelaContaDFCosifRepository, RelaContaDFCosifRepository>();
             //ModeloDFRepository
-            services.AddTransient<ICrudRepository<ModeloDF>, ModeloDFRepository>();
+            services.AddTransient<IModeloDFRepository, ModeloDFRepository>();
 
         }
 
@@ -75,6 +81,7 @@ namespace ZAPNET.DemoFina
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseSession(); // usar o serviço de sessão
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>

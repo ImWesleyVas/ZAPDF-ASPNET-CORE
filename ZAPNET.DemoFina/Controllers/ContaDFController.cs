@@ -13,9 +13,9 @@ namespace ZAPNET.DemoFina.Controllers
     public class ContaDFController : Controller
     {
         private readonly ICrudRepository<ContaDF> _repoContaDF;
-        private readonly ICrudRepository<ModeloDF> _repoModeloDF;
+        private readonly IModeloDFRepository _repoModeloDF;
 
-        public ContaDFController(ICrudRepository<ContaDF> repoContaDF, ICrudRepository<ModeloDF> repoModeloDF)
+        public ContaDFController(ICrudRepository<ContaDF> repoContaDF, IModeloDFRepository repoModeloDF)
         {
             _repoContaDF = repoContaDF;
             _repoModeloDF = repoModeloDF;
@@ -34,6 +34,7 @@ namespace ZAPNET.DemoFina.Controllers
         [HttpGet]
         public async Task<IActionResult> ListaContasDF(int Id)
         {
+            
             List<ContaDF> contasDF = new List<ContaDF>();
             contasDF = await new ContaDFDAO(_repoContaDF).findAllContasDFAsync(Id);
 
@@ -105,6 +106,7 @@ namespace ZAPNET.DemoFina.Controllers
                 throw;
             }
         } // fim get AddContaDF
+
 
     }
 }

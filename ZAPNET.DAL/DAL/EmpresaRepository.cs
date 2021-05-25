@@ -5,10 +5,11 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using ZAPNET.DAL.DB;
 using ZAPNET.Interfaces;
+using ZAPNET.DemoFina.Models;
 
 namespace ZAPNET.DAL.DAL
 {
-    public class EmpresaRepository : ICrudRepository<string[]>
+    public class EmpresaRepository : ICrudRepository<Empresa>
     {
 
         SqlConnection conn = null;

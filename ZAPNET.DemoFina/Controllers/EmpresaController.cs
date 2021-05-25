@@ -22,28 +22,20 @@ namespace ZAPNET.DemoFina.Controllers
             _empresaDal = new EmpresaDAL(_repo);
         }
 
-        
-
-
-
         public IActionResult Index()
         {
             return View();
         }
 
         public async Task<IActionResult> ListaEmpresas(int? id)
-        {
-         
+        {         
            return View(await (new EmpresaDAL(_repo).FindAllEmpresas(id)));
-
         }
 
         public IActionResult CadastroEmpresa()
         {
             return View();            
         }
-
-        
 
         [HttpPost]
         public async Task<IActionResult> CadastroEmpresa(EmpresaModelView formulario)

@@ -20,12 +20,10 @@ namespace ZAPNET.DemoFina.Services
         bool result = false;
 
         //injeção de dependencia (container e consumo de serviço na startup)
-        private readonly ConnectionDB Conexao;
-
+       
         public RelaContaDFCosifRepository(ConnectionDB conexao)
         {
-            Conexao = conexao;
-
+           
             if (conn == null)
             {
                 conn = conexao.ObterConexao();

@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<body >
+<body>
     <div style="display:block; text-align:center">
         <h2><strong>CADASTRO</strong></h2>
     </div>
@@ -11,14 +11,17 @@
         <div class="col-sm-8 modal-content" style="padding-top:2%; padding-bottom: 2%">
             <br />
             <br />
-            <a class="btn btn-block btn-primary" asp-controller="Empresa" asp-action="ListaEmpresas">EMPRESAS</a>
+            <a data-btn-empresa class="btn btn-block btn-primary" asp-controller="Empresa" asp-action="ListaEmpresas">EMPRESAS  <span class="spinner"><img src="~/images/spinner.gif" alt="Spinner" /></span></a>
             <br />
-            <a class="btn btn-block btn-primary" asp-area="" asp-controller="Cosif" asp-action="ListaCosif">PLANO COSIF - BACEN</a>
+            <a data-btn-cosif class="btn btn-block btn-primary" asp-area="" asp-controller="Cosif" asp-action="ListaCosif">PLANO COSIF - BACEN  <span class="spinner"><img src="~/images/spinner.gif" alt="Spinner" /></span></a>
             <br />
-            <a class="btn btn-block btn-primary" asp-area="" asp-controller="ModeloDF" asp-action="ListaModelos">MODELOS DE DEMONSTRAÇÕES FINANCEIRAS</a>
-            <br /><br /><br />
+            <a data-btn-modelo class="btn btn-block btn-primary" asp-area="" asp-controller="ModeloDF" asp-action="ListaModelos">MODELOS DE DEMONSTRAÇÕES FINANCEIRAS  <span class="spinner"><img src="~/images/spinner.gif" alt="Spinner" /></span></a>
+            <br />            
         </div>
 
         <div class="col-sm-2"></div>
     </div>
 </body>
+
+
+

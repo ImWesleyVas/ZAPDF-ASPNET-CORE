@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
@@ -10,13 +11,12 @@ namespace ZAPNET.DemoFina.Controllers
     public class ModeloDFController : Controller
     {
 
-        private readonly ICrudRepository<ModeloDF> _repo;
+        private readonly IModeloDFRepository _repo;
         ModeloDAO modeloDAO;
 
-        public ModeloDFController(ICrudRepository<ModeloDF> repo)
+        public ModeloDFController(IModeloDFRepository repo)
         {
             _repo = repo;
-
             modeloDAO = new ModeloDAO(_repo);
         }
 
@@ -31,11 +31,20 @@ namespace ZAPNET.DemoFina.Controllers
             return View(modeloDAO.FindByModeloID(id));
         }
 
-        public async Task<IActionResult> ListaModelos(int? id)
+        [HttpGet]
+        [HttpPost]
+        public async Task<IActionResult> ListaModelos(string mesAno)
         {
-            return View(await modeloDAO.FindAllModelosAsync(id));
+
+            var listaModelos = await modeloDAO.FindAllModelosAsync(mesAno);
+
+            var periodo = listaModelos.First(m => m._periodo == m._periodo)._periodo;
+
+            ViewData["MesAno"] = periodo.Substring(0, 4) + "-" + periodo.Substring(4);             
+
+            return View(listaModelos);
         }
-               
+
 
         public IActionResult AddModelo()
         {
@@ -47,8 +56,8 @@ namespace ZAPNET.DemoFina.Controllers
         {
             return View(modeloDAO.FindByModeloID(id));
         }
-        
-        
+
+
         [HttpPost]
         public async Task<IActionResult> AddModelo(ModeloDF formularioModelo)
         {
@@ -83,7 +92,7 @@ namespace ZAPNET.DemoFina.Controllers
                             return View();
                         }
                     }
-                    
+
 
                     // retorna e mantém os dados nos campos - não recarrega a pagina
 

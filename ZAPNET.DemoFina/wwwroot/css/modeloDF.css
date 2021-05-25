@@ -1,0 +1,28 @@
+﻿body {
+}
+
+[data-table-modelos] {
+    display: none;
+}
+
+#addModelo{
+    display:none;
+}
+
+.mesAno {
+    /*border: 2px solid red;*/
+    padding-left:0;
+
+    text-align: center;
+    
+    height: 4.6em;
+}
+
+.lblMesAno {
+    margin-left: 0;
+    position: absolute;
+    bottom: 0px;
+    left:30%;
+    font-size: 2em;
+    font-weight:200;
+}

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,16 +11,19 @@ namespace ZAPNET.DemoFina.DAL
     public class ContaDFDAO
     {
         ICrudRepository<ContaDF> repo;
-
+       
         public ContaDFDAO(ICrudRepository<ContaDF> repo)
         {
-            this.repo = repo;
+            this.repo = repo;            
         }
 
         //ContaDFRepository repo = new ContaDFRepository();
 
         public async Task<List<ContaDF>> findAllContasDFAsync(int? id)
         {
+            //// inserir ID do Modelo na sessão aqui
+            //var modeloId = GetModeloID();
+            
             return await repo.FindAll(id);
         }
 
@@ -37,6 +41,5 @@ namespace ZAPNET.DemoFina.DAL
         {
             return repo.Delete(conta);
         }
-
     }
 }

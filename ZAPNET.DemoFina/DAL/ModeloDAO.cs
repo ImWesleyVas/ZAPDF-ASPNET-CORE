@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
@@ -10,17 +8,33 @@ namespace ZAPNET.DemoFina.DAL
 {
     public class ModeloDAO
     {
-        private ICrudRepository<ModeloDF> repo;
+        private IModeloDFRepository repo;
 
-        public ModeloDAO(ICrudRepository<ModeloDF> repo)
+        public ModeloDAO(IModeloDFRepository repo)
         {
             this.repo = repo;
         }
 
-        public async Task<List<ModeloDF>> FindAllModelosAsync(int? id)
+        public string _periodo { get; set; }
+
+
+        public ModeloDAO(IModeloDFRepository repo, string periodo)
         {
-            return await repo.FindAll(id);
+            this.repo = repo;
+            this._periodo = periodo;
         }
+
+
+        public async Task<List<ModeloDF>> FindAllModelosAsync(string periodo)
+        {
+            var listaModelosDAO = await repo.FindAll(periodo);
+            return listaModelosDAO;
+            // AQUI É PRECISO DAR TRATAMENTO, QUANDO A DATA SOLICITADA NÃO EXISTIR
+            //if (listaModelosDAO.Count == 0)
+            //    return new List<ModeloDF>();
+        }
+
+
 
         public ModeloDF FindByModeloID(int id)
         {
@@ -30,7 +44,7 @@ namespace ZAPNET.DemoFina.DAL
 
         public async Task<bool> Salvar(ModeloDF modelo)
         {
-            return await repo.Add(0, modelo);
+            return await repo.Add(modelo);
         }
 
         public bool Update(ModeloDF modelo)

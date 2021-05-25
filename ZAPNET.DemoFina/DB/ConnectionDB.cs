@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System.Configuration;
-using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace ZAPNET.DemoFina.DB

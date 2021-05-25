@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,12 +17,15 @@ namespace ZAPNET.DemoFina.Services
         bool result = false;
 
         //injeção de dependencia (container e consumo de serviço na startup)
-        private readonly ICrudRepository<ModeloDF> _repo;
+        private readonly IModeloDFRepository _repo;
+        private readonly IHttpContextAccessor contextAccessor;
 
-        public ContaDFRepository(ConnectionDB conexao, ICrudRepository<ModeloDF> repo)
-        {
-            
+
+
+        public ContaDFRepository(ConnectionDB conexao, IModeloDFRepository repo) //, IHttpContextAccessor contextAccessor)
+        {            
             _repo = repo;
+            //this.contextAccessor = contextAccessor;
 
             if (conn == null)
             {
@@ -138,6 +142,8 @@ namespace ZAPNET.DemoFina.Services
 
         public async Task<List<ContaDF>> FindAll(int ? idModelo)
         {
+            //var modeloId = GetModeloID();
+
             ModeloDF modelo = new ModeloDAO(_repo).FindByModeloID((int)idModelo);
             List<ContaDF> lista = new List<ContaDF>();
 
@@ -244,5 +250,17 @@ namespace ZAPNET.DemoFina.Services
         {
             throw new NotImplementedException();
         }
+
+        // Adicionando código do Modelo em sessão
+        private int? GetModeloID()
+        {
+            return contextAccessor.HttpContext.Session.GetInt32("Modelo_Id");
+        }
+
+        private void SetModeloID(int modeloId)
+        {
+            contextAccessor.HttpContext.Session.SetInt32("Modelo_Id", modeloId);
+        }
+
     }
 }

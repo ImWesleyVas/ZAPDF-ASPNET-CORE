@@ -16,12 +16,10 @@ namespace ZAPNET.DemoFina.Services
         SqlCommand comando = null;
 
         //injeção de dependencia (container e consumo de serviço na startup)
-        private readonly ConnectionDB Conexao;
-
+       
         public EnderecoRepository(ConnectionDB conexao)
         {
-            Conexao = conexao;
-
+          
             if (conn == null)
             {
                 conn = conexao.ObterConexao();

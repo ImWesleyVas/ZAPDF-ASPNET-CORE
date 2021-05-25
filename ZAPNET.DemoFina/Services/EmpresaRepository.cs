@@ -10,20 +10,13 @@ namespace ZAPNET.DemoFina.Services
 {
     public class EmpresaRepository : ICrudRepository<Empresa>
     {
-
-
-
         SqlConnection conn = null;
         SqlCommand comando = null;
         bool result = false;
 
-        //injeção de dependencia (container e consumo de serviço na startup)
-        private readonly ConnectionDB Conexao;
-
         public EmpresaRepository(ConnectionDB conexao)
         {
-            Conexao = conexao;
-
+            
             if (conn == null)
             {
                 conn = conexao.ObterConexao();
@@ -32,15 +25,11 @@ namespace ZAPNET.DemoFina.Services
             if (comando == null)
             {
                 comando = new SqlCommand();
-
             }
         }
 
-
-
         public async Task<bool> Add(int? id, Empresa obj)
         {
-
             try
             {
                 // adiciona a propriedade connection ao respectivo objeto de conexao
@@ -56,7 +45,6 @@ namespace ZAPNET.DemoFina.Services
                     "@Inscricao_Municipal, @Inscricao_Estadual, @Nire, @Id_Bacen_Cvm_Susep, @Atributo_Institucional)";
 
                 // trocamos os parametros
-
                 if(obj.Mnemonico != null)
                 {
                     comando.Parameters.AddWithValue("@Mnemonico", obj.Mnemonico.Trim());
@@ -117,9 +105,6 @@ namespace ZAPNET.DemoFina.Services
                 {
                     comando.Parameters.AddWithValue("@Atributo_Institucional", DBNull.Value);
                 }
-                
-
-
                 // abre conexao com DB
                 conn.Open();
 
