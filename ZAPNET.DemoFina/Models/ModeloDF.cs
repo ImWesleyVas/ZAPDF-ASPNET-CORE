@@ -15,8 +15,8 @@ namespace ZAPNET.DemoFina.Models
         public string _periodo { get; set; }
 
         private List<Empresa> empresas = new List<Empresa>();
-        private List<Endereco> contasDF = new List<Endereco>();
-        PeriodoRef PeriodoRef = new PeriodoRef();
+        private List<ContaDF> contasDF = new List<ContaDF>();
+        
 
         public ModeloDF()
         {
@@ -44,16 +44,9 @@ namespace ZAPNET.DemoFina.Models
             empresas.Add(empresa);
         }
 
-        public void addContaRubricaDF(Endereco contaRubrica)
+        public void addContaRubricaDF(ContaDF contaRubrica)
         {
             contasDF.Add(contaRubrica);
-        }
-
-        public void setPeriodoRefe(string periodo, char status)
-        {
-
-            PeriodoRef.Periodo = periodo;
-            PeriodoRef.StatusPeriodo = status;
         }
 
     }

@@ -125,8 +125,6 @@ namespace ZAPNET.DemoFina.Services
         {
             List<ModeloDF> lista = new List<ModeloDF>();
 
-            var mesAno = (periodo == null ? null : periodo.Replace("-", ""));
-
             try
             {
                 // adiciona a propriedade connection ao respectivo objeto de conexao
@@ -136,16 +134,27 @@ namespace ZAPNET.DemoFina.Services
 
                 if (periodo == null)
                 {
-                    comando.CommandText = "select * from MODELO_DF " +
-                        "where PERIODO_REFE = (select max(PERIODO_REFE) from MODELO_DF)";
+                    comando.CommandText = "select md.Id, md.Nome, md.Cong, md.Empr, pr.PERIODO, pr.STATUS " +
+                        " from MODELO_DF md inner " +
+                        "join PERIODO_REFE pr " +
+                        "on (md.Cong = pr.Cong and md.Empr = pr.Empr) " +
+                        "where pr.PERIODO = (select max(PERIODO_REFE) from MODELO_DF)";
                 }
                 else
                 {
+                    //// define a query a se executada
+                    //comando.CommandText = "SELECT * FROM MODELO_DF " +
+                    //    "WHERE PERIODO_REFE = @PERIODO ORDER BY ID";
+
                     // define a query a se executada
-                    comando.CommandText = "SELECT * FROM MODELO_DF " +
-                        "WHERE PERIODO_REFE = @PERIODO ORDER BY ID";
+                    comando.CommandText = "select md.Id, md.Nome, md.Cong, md.Empr, pr.PERIODO, pr.STATUS " +
+                        " from MODELO_DF md inner" +
+                        " join PERIODO_REFE pr" +
+                        " on (md.Cong = pr.Cong and md.Empr = pr.Empr)" +
+                        " where pr.PERIODO = @PERIODO";
+
                     // trocamos os parametros                
-                    comando.Parameters.AddWithValue("@PERIODO", mesAno);
+                    comando.Parameters.AddWithValue("@PERIODO", periodo);
                 }
                 // abre conexao com DB
                 conn.Open();
@@ -158,8 +167,8 @@ namespace ZAPNET.DemoFina.Services
 
                         modelo.Id = Convert.ToInt32(dr["Id"]);
                         modelo.Nome = Convert.ToString(dr["Nome"].ToString());
-                        modelo._periodo = Convert.ToString(dr["PERIODO_REFE"].ToString());
-                        //var status = Convert.ToChar(dr["STATUS"].ToString());
+                        modelo._periodo = Convert.ToString(dr["PERIODO"].ToString());
+                        var status = Convert.ToChar(dr["STATUS"].ToString());
                         //modelo.setPeriodoRefe(periodoRefe, status);
 
                         lista.Add(modelo);

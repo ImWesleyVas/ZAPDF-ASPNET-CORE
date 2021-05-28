@@ -9,7 +9,8 @@ namespace ZAPNET.DemoFina.Models.ModelView
     {
         public ModeloDF ModeloDF { get; set; }
         public ContaDF ContaDF { get; set; }
+        public PeriodoRef PeriodoRef { get; set; }
 
-        public List<Endereco> ListaContas { get; set; }
+        public List<ContaDF> ListaContas { get; set; }
     }
 }

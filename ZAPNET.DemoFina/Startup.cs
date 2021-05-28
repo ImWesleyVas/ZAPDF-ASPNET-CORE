@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina
 {
@@ -40,7 +41,8 @@ namespace ZAPNET.DemoFina
             services.AddSession();
 
 
-            
+
+
             // Adicionando a minha ApplicationContext, para obter a conexao e fazer a injeção de dependência, com uso do SQLServer.
             // services.AddDbContext<ZAPNETApplicationContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("Default")));
@@ -62,7 +64,10 @@ namespace ZAPNET.DemoFina
             services.AddTransient<IRelaContaDFCosifRepository, RelaContaDFCosifRepository>();
             //ModeloDFRepository
             services.AddTransient<IModeloDFRepository, ModeloDFRepository>();
+            //Sessions
+            services.AddTransient<IModeloSessions, ModelosSessions>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // Consome os serviços, utilizar os serviços

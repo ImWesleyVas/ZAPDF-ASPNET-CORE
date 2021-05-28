@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Controllers
 {
@@ -12,12 +13,14 @@ namespace ZAPNET.DemoFina.Controllers
     {
 
         private readonly IModeloDFRepository _repo;
+        private readonly IModeloSessions _sessions;
         ModeloDAO modeloDAO;
 
-        public ModeloDFController(IModeloDFRepository repo)
+        public ModeloDFController(IModeloDFRepository repo, IModeloSessions sessions)
         {
             _repo = repo;
-            modeloDAO = new ModeloDAO(_repo);
+            _sessions = sessions;
+            modeloDAO = new ModeloDAO(_repo, _sessions);
         }
 
 
@@ -35,12 +38,18 @@ namespace ZAPNET.DemoFina.Controllers
         [HttpPost]
         public async Task<IActionResult> ListaModelos(string mesAno)
         {
+            // PRECISA TIRAR O PERIODO (MESANO) DA TABELA DE MODELOS
+            // ESTE DEVE CONTER APENAS NO PERIODOREF E NO RELA
 
-            var listaModelos = await modeloDAO.FindAllModelosAsync(mesAno);
+            var periodo = (mesAno == null ? null : mesAno.Replace("-", ""));
+            var listaModelos = await modeloDAO.FindAllModelosAsync(periodo);
+            ViewData["MesAno"] = _sessions.GetPeriodo().Substring(0, 4) + "-" + _sessions.GetPeriodo().Substring(4, 2); 
 
-            var periodo = listaModelos.First(m => m._periodo == m._periodo)._periodo;
-
-            ViewData["MesAno"] = periodo.Substring(0, 4) + "-" + periodo.Substring(4);             
+            if(listaModelos.Count == 0)
+            {
+                // incluir mensagem option, para criar nova data, clonar de outro período ou cancelar
+                return View(new List<ModeloDF>());
+            }
 
             return View(listaModelos);
         }

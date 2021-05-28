@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,6 +6,7 @@ using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Models.ModelView;
 using ZAPNET.DemoFina.Services;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Controllers
 {
@@ -14,11 +14,13 @@ namespace ZAPNET.DemoFina.Controllers
     {
         private readonly ICrudRepository<ContaDF> _repoContaDF;
         private readonly IModeloDFRepository _repoModeloDF;
+        private readonly IModeloSessions _sessions;
 
-        public ContaDFController(ICrudRepository<ContaDF> repoContaDF, IModeloDFRepository repoModeloDF)
+        public ContaDFController(ICrudRepository<ContaDF> repoContaDF, IModeloDFRepository repoModeloDF, IModeloSessions sessions)
         {
             _repoContaDF = repoContaDF;
             _repoModeloDF = repoModeloDF;
+            _sessions = sessions;
         }
 
         public IActionResult Index()
@@ -34,18 +36,20 @@ namespace ZAPNET.DemoFina.Controllers
         [HttpGet]
         public async Task<IActionResult> ListaContasDF(int Id)
         {
-            
+            var periodo = _sessions.GetPeriodo();
+
             List<ContaDF> contasDF = new List<ContaDF>();
             contasDF = await new ContaDFDAO(_repoContaDF).findAllContasDFAsync(Id);
+
 
             //resolvendo o problema da lista vazia... 
             if (contasDF.Count == 0)
             {
-                ViewBag.Modelo = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
+                ViewBag.Modelo = new ModeloDAO(_repoModeloDF, _sessions).FindByModeloID(Id);
                 return View();
             }
 
-            ViewBag.Modelo = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
+            ViewBag.Modelo = new ModeloDAO(_repoModeloDF, _sessions).FindByModeloID(Id);
             return View(contasDF);
         }
 
@@ -54,7 +58,7 @@ namespace ZAPNET.DemoFina.Controllers
         public IActionResult AddContaDF(int Id)
         {
             ModeloDFModelView modelo = new ModeloDFModelView();
-            modelo.ModeloDF = new ModeloDAO(_repoModeloDF).FindByModeloID(Id);
+            modelo.ModeloDF = new ModeloDAO(_repoModeloDF, _sessions).FindByModeloID(Id);
             modelo.ContaDF = new ContaDF();
             return View(modelo);
         } // fim get AddContaDF

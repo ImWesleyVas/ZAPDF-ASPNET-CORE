@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.DB;
 using ZAPNET.DemoFina.Models;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.Services
 {
@@ -18,14 +19,14 @@ namespace ZAPNET.DemoFina.Services
 
         //injeção de dependencia (container e consumo de serviço na startup)
         private readonly IModeloDFRepository _repo;
-        private readonly IHttpContextAccessor contextAccessor;
+        private readonly IModeloSessions _sessions;
 
 
 
-        public ContaDFRepository(ConnectionDB conexao, IModeloDFRepository repo) //, IHttpContextAccessor contextAccessor)
+        public ContaDFRepository(ConnectionDB conexao, IModeloDFRepository repo, IModeloSessions sessions )
         {            
             _repo = repo;
-            //this.contextAccessor = contextAccessor;
+            _sessions = sessions;
 
             if (conn == null)
             {
@@ -144,7 +145,7 @@ namespace ZAPNET.DemoFina.Services
         {
             //var modeloId = GetModeloID();
 
-            ModeloDF modelo = new ModeloDAO(_repo).FindByModeloID((int)idModelo);
+            ModeloDF modelo = new ModeloDAO(_repo, _sessions).FindByModeloID((int)idModelo);
             List<ContaDF> lista = new List<ContaDF>();
 
 
@@ -230,7 +231,7 @@ namespace ZAPNET.DemoFina.Services
                     conta.Nivel = Convert.ToInt32(dr["Nivel"]);
                     conta.Natureza = Convert.ToString(dr["Natureza"].ToString());
                     conta.Classe = Convert.ToString(dr["Classe"].ToString());
-                    conta.ModeloDF =  new ModeloDAO(_repo).FindByModeloID(Convert.ToInt32(dr["Modelo_Id"].ToString()));
+                    conta.ModeloDF =  new ModeloDAO(_repo, _sessions).FindByModeloID(Convert.ToInt32(dr["Modelo_Id"].ToString()));
                 }
             }
             catch (Exception e)
@@ -250,17 +251,7 @@ namespace ZAPNET.DemoFina.Services
         {
             throw new NotImplementedException();
         }
-
-        // Adicionando código do Modelo em sessão
-        private int? GetModeloID()
-        {
-            return contextAccessor.HttpContext.Session.GetInt32("Modelo_Id");
-        }
-
-        private void SetModeloID(int modeloId)
-        {
-            contextAccessor.HttpContext.Session.SetInt32("Modelo_Id", modeloId);
-        }
+                
 
     }
 }
