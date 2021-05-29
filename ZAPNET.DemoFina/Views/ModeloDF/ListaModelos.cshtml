@@ -23,8 +23,9 @@
         <p class="lblMesAno" style="display:none">@ViewData["MesAno"]</p>
     </div>
 
-    <div id="addModelo" class="col-lg-4" style="padding-top: 18px; text-align:right;">
-        <a asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
+    <div  class="col-lg-4" style="padding-top: 18px; text-align:right;">
+        <a id="addModelo" asp-action="AddModelo" class="btn btn-primary">Adicionar Novo Modelo</a>
+        <a type="button" asp-controller="Home" asp-action="Cadastro" class="btn btn-warning" style="text-align:right">Voltar</a>
     </div>
 </div>
 
@@ -75,6 +76,7 @@
         </div>
 
         <br />
+
     }
 
 </div>
@@ -88,6 +90,6 @@
 
 @section Scripts {
 
-    <script src="~/js/modelo-df.js"></script>
+    <script type="module" src="~/js/modelo-df.js"></script>
 
 }

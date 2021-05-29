@@ -1,4 +1,6 @@
-﻿@model IEnumerable<ZAPNET.DemoFina.Models.ContaDF>
+﻿@using X.PagedList.Mvc.Core;
+@model X.PagedList.PagedList<ZAPNET.DemoFina.Models.ContaDF>
+@*@model IEnumerable<ZAPNET.DemoFina.Models.ContaDF>*@
 
 @{
     ViewData["Title"] = "ListaContasDF";
@@ -10,10 +12,13 @@
 </div>
 
 <div class="container">
-    <div class="col-sm-6">
+    <div class="col-sm-4">
         <a asp-action="AddContaDF" asp-route-id=@ViewBag.Modelo.Id class="btn btn-primary">Nova Conta</a>
     </div>
-    <div class="col-sm-6" style="text-align:right; padding-right:50px">
+    <div class="col-sm-4 mesAno" style="text-align:center">
+        <p class="lblMesAno" style="display:none">@ViewData["MesAno"]</p>
+    </div>
+    <div class="col-sm-4" style="text-align:right; padding-right:50px">
         <a asp-controller="ModeloDF" asp-action="ListaModelos" class="btn btn-warning">Voltar</a>
     </div>
 </div>
@@ -31,16 +36,20 @@
                     Rubrica
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Tipo)
+                    Tipo
+                    @*@Html.DisplayNameFor(model => model.Tipo)*@
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Natureza)
+                    Natureza
+                    @*@Html.DisplayNameFor(model => model.Natureza)*@
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Nivel)
+                    Nivel
+                    @*@Html.DisplayNameFor(model => model.Nivel)*@
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Classe)
+                    Classe
+                    @*@Html.DisplayNameFor(model => model.Classe)*@
                 </th>
                 <th></th>
             </tr>
@@ -58,7 +67,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Descricao)
                         </td>
-                        <td>
+                        <td class="tipoContaDF">
                             @Html.DisplayFor(modelItem => item.Tipo)
                         </td>
                         <td>
@@ -74,11 +83,55 @@
                             @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
                             @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning" })
                             @Html.ActionLink("Excluir", "ExcluiContaDF", new { id = item.Id }, new { @class = "btn btn-danger" })
-                            @Html.ActionLink("Relacionar Cosif", "RelacionarDFCosifAsync", "RelacoesPeriodoRef", new { id = item.Id }, new { @class = "btn btn-info" })
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Relacionar Cosif">
+                                @Html.ActionLink("", "RelacionarDFCosifAsync", "RelacoesPeriodoRef", new { id = item.Id }, new { @class = "btn btn-default glyphicon glyphicon-triangle-bottom" })
+                            </span>
                         </td>
+                    </tr>
+
+                    <tr class="" data-add-cosif="conta-cosif" style="background-color: lightgrey">
+                        <td></td>
+                        <td>
+                            <select style="width: 100%">
+                                <option>Conta 1</option>
+                                <option>Conta 2</option>
+                                <option>Conta 3</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-xs" ; align-content:center">Adicionar</button>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+
+                    <tr class="" data-conta-cosif>
+                        <td></td>
                     </tr>
                 }
             }
         </tbody>
     </table>
+
+    <!-- BLOCO DA PAGINAÇÃO-->
+    <div class="row">
+        <div class="col-md-8" style="padding-left:2em">
+            @Html.PagedListPager(Model, pagina => Url.Action("ListaContasDF", new { pagina }))
+        </div>
+        <div class="col-md-4">
+            <span class="pull-right" style="padding-right:2em">
+                Listando registros de @Model.FirstItemOnPage a @Model.LastItemOnPage de um total de @Model.TotalItemCount
+            </span>
+        </div>
+    </div>
+    <!--FIN BLOCO PAGINAÇÃO-->
 </div>
+
+@section Scripts {
+
+    <script type="module" src="~/js/conta-df.js"></script>
+
+}

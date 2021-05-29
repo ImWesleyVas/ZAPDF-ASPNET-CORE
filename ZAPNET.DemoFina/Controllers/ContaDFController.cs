@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using X.PagedList;
 using ZAPNET.DemoFina.DAL;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Models.ModelView;
@@ -34,12 +35,15 @@ namespace ZAPNET.DemoFina.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ListaContasDF(int Id)
+        public async Task<IActionResult> ListaContasDF(int Id, int pagina = 1)
         {
             var periodo = _sessions.GetPeriodo();
 
             List<ContaDF> contasDF = new List<ContaDF>();
             contasDF = await new ContaDFDAO(_repoContaDF).findAllContasDFAsync(Id);
+            var pageListContaDF = contasDF.ToPagedList(pagina, 10);
+            
+            ViewData["MesAno"] = periodo.Substring(0, 4) + "-" + periodo.Substring(4, 2);
 
 
             //resolvendo o problema da lista vazia... 
@@ -50,7 +54,7 @@ namespace ZAPNET.DemoFina.Controllers
             }
 
             ViewBag.Modelo = new ModeloDAO(_repoModeloDF, _sessions).FindByModeloID(Id);
-            return View(contasDF);
+            return View(pageListContaDF);
         }
 
 

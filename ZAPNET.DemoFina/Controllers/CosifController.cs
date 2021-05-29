@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using X.PagedList;
 using ZAPNET.DemoFina.DAL;
-using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
 using ZAPNET.DemoFina.Util;
+
+
 
 namespace ZAPNET.DemoFina.Controllers
 {
@@ -36,10 +38,12 @@ namespace ZAPNET.DemoFina.Controllers
         //Injeta a instância no construtor para poder usar os recursos
 
 
-
-        public async Task<IActionResult> ListaCosif()
+        //USANDO BIBLIOTECA X.PAGEDLIST.MVC.CORE PARA PAGINAÇÃO
+        public async Task<IActionResult> ListaCosif(int pagina = 1)  // recebendo a pagina como parâmetro, iniciando por pagina 1
         {
-            return View( await _cosifDao.findAllCosifAsync());
+            var listaCosif = await _cosifDao.findAllCosifAsync();
+            var pageListCosif = listaCosif.ToPagedList(pagina, 10);  // transformar o List em PagedList
+            return View(pageListCosif);  // passando o pagedList para View
         }
 
 
