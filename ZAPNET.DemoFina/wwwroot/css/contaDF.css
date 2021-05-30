@@ -8,3 +8,11 @@
     display: none;
     width:50px;
 }
+[data-add-cosif] {
+    display:none;
+}
+
+.data-add-cosif-show {
+    display: table-row;
+    background-color: lightcyan ;
+}

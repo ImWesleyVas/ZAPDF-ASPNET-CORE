@@ -52,6 +52,7 @@
                     @*@Html.DisplayNameFor(model => model.Classe)*@
                 </th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -83,13 +84,18 @@
                             @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
                             @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning" })
                             @Html.ActionLink("Excluir", "ExcluiContaDF", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            @*<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Relacionar Cosif">
+                                <button data-btn-rela="btn-relacionar" class = "btn btn-default glyphicon glyphicon-triangle-bottom"></button>
+                            </span>*@ 
+                        </td>
+                        <td>
                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Relacionar Cosif">
-                                @Html.ActionLink("", "RelacionarDFCosifAsync", "RelacoesPeriodoRef", new { id = item.Id }, new { @class = "btn btn-default glyphicon glyphicon-triangle-bottom" })
+                                <button data-btn-rela="btn-relacionar" class="btn btn-default glyphicon glyphicon-triangle-bottom"></button>
                             </span>
                         </td>
                     </tr>
 
-                    <tr class="" data-add-cosif="conta-cosif" style="background-color: lightgrey">
+                    <tr class="" data-add-cosif="conta-cosif">
                         <td></td>
                         <td>
                             <select style="width: 100%">
@@ -98,19 +104,17 @@
                                 <option>Conta 3</option>
                             </select>
                         </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td>
                             <button class="btn btn-primary btn-xs" ; align-content:center">Adicionar</button>
                         </td>
                         <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
 
                     </tr>
 
-                    <tr class="" data-conta-cosif>
-                        <td></td>
-                    </tr>
                 }
             }
         </tbody>
