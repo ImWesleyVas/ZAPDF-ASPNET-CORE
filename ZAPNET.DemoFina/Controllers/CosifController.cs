@@ -70,6 +70,7 @@ namespace ZAPNET.DemoFina.Controllers
             //percorre a lista de arquivos selecionados
             foreach (var arquivo in arquivos)
             {
+                //INCLUIR ESSE CÓDIGO NA CLASSE OU ARQUIVOcSV
                 //verifica se existem arquivos 
                 if (arquivo == null || arquivo.Length == 0)
                 {

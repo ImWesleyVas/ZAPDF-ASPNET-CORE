@@ -1,5 +1,5 @@
 ﻿
-namespace ZAPNET.DemoFina.Util
+namespace ZAPNET.DemoFina
 {
     public interface IConta
     {

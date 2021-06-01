@@ -8,11 +8,16 @@
     display: none;
     width:50px;
 }
+.conta-df-hide{
+    display: none;
+}
+
+
 [data-add-cosif] {
     display:none;
 }
 
 .data-add-cosif-show {
     display: table-row;
-    background-color: lightcyan ;
+    background-color: lightcyan;
 }

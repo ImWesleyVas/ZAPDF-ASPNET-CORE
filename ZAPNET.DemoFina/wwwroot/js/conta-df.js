@@ -3,44 +3,60 @@
 
     $(window).on("load", function (evento) {
         evento.preventDefault();
-        debugger;
 
         carregaMesAno(".lblMesAno");
 
-        var btnRela = $('button.btn.btn-default.glyphicon.glyphicon-triangle-bottom');
+        var btnRela = $('[data-btn-rela]');
 
         for (var i = 0; i < btnRela.length; i++) {
 
-            var pai = btnRela[i].parentElement;
-            var avo = pai.parentElement;
-            var bisavo = avo.parentElement;
+            var trBtn = btnRela[i].parentElement
+                .parentElement
+                .parentElement;
 
-            var titioAvo = avo.previousElementSibling
+            var tdTipo = btnRela[i].parentElement.parentElement
+                .previousElementSibling
                 .previousElementSibling
                 .previousElementSibling
                 .previousElementSibling
                 .previousElementSibling;
 
-            if (titioAvo.textContent.trim() == "S") {
+            if (tdTipo.textContent.trim() == "S") {
                 btnRela[i].classList.add('btn-rela-none');
-                var titioBisavo = bisavo.nextElementSibling;
-                titioBisavo.remove();
+                var nextTR = trBtn.nextElementSibling;
+                nextTR.remove();
             }
         }
-
     })
+
 
     $('[data-btn-rela]').on('click', function (event) {
         event.preventDefault();
-        /*debugger;*/
-        var paiButton = this.parentElement;
-        var avoButton = paiButton.parentElement;
-        var bisaboButton = avoButton.parentElement;
-        var titioBisavo = bisaboButton.nextElementSibling;
-        
-        titioBisavo.classList.toggle('data-add-cosif-show');
+        debugger;
+        var $this = $(this);
+        var thisTR = $(this).parent().parent().parent();
+        var nextTROculta = thisTR.next();
+        var brothersTR = thisTR.siblings('tr.conta-df');
 
-        console.log(titioBisavo);
+        if ($this.hasClass('glyphicon-triangle-left')) {
+            $this.toggle().removeClass('glyphicon-triangle-left');
+            $this.toggle().addClass('glyphicon-triangle-bottom');
+        }
+        else {
+            $this.toggle().removeClass('glyphicon-triangle-bottom');
+            $this.toggle().addClass('glyphicon-triangle-left');
+        }
+
+        //nextTROculta.removeClass('data-add-cosif-show');
+
+        setTimeout(function () {
+            brothersTR.fadeToggle().addClass('conta-df-hide');
+
+            setTimeout(function () {
+                nextTROculta.fadeToggle().addClass('data-add-cosif-show');
+
+            }, 300);
+        }, 300);
 
     })
 
