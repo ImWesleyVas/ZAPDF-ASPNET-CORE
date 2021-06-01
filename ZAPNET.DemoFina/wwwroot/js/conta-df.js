@@ -52,12 +52,12 @@
         setTimeout(function () {
             brothersTR.fadeToggle().addClass('conta-df-hide');
 
-            setTimeout(function () {
-                nextTROculta.fadeToggle().addClass('data-add-cosif-show');
+        }, 50);
 
-            }, 300);
-        }, 300);
+        setTimeout(function () {
+            nextTROculta.fadeToggle().addClass('data-add-cosif-show');
 
+        }, 700);
     })
 
 })()
