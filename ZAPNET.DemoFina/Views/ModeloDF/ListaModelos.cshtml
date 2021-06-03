@@ -63,10 +63,10 @@
                         <td>
                             <h4><strong>@Html.DisplayFor(modelItem => item.Nome)</strong></h4>
                         </td>
-                        <td style="display:block; text-align:right">
-                            @Html.ActionLink("Editar", "AddModelo", null, new { id = item.Id }, new { @class = "btn btn-primary" }) |
-                            @Html.ActionLink("Excluir", "Excluir", null, new { id = item.Id }, new { @class = "btn btn-danger" }) |
-                            @Html.ActionLink("Rubricas", "ListaContasDF", "ContaDF", new { id = item.Id }, new { @class = "btn btn-info" })
+                        <td style="display:block; text-align:right; vertical-align:text-bottom">
+                            @Html.ActionLink("Editar", "AddModelo", null, new { id = item.Id }, new { @class = "btn btn-primary btn-xs" }) 
+                            @Html.ActionLink("Excluir", "Excluir", null, new { id = item.Id }, new { @class = "btn btn-danger btn-xs" }) 
+                            @Html.ActionLink("Rubricas", "ListaContasDF", "ContaDF", new { id = item.Id }, new { @class = "btn btn-info btn-xs" })
                         </td>
                     </tr>
 

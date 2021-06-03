@@ -46,3 +46,7 @@ body {
     .spinner > img {
         width: 30px;
     }
+
+    .spinner > img.grande {
+        width: 75px;
+    }

@@ -81,16 +81,16 @@
                             @Html.DisplayFor(modelItem => item.Classe)
                         </td>
                         <td style="text-align:right">
-                            @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary" })
-                            @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning" })
-                            @Html.ActionLink("Excluir", "ExcluiContaDF", new { id = item.Id }, new { @class = "btn btn-danger" })
+                            @Html.ActionLink("Editar", "Editar", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-primary btn-xs" })
+                            @Html.ActionLink("Detalhe", "Detalhe", new { /* id=item.PrimaryKey */}, new { @class = "btn btn-warning btn-xs" })
+                            @Html.ActionLink("Excluir", "ExcluiContaDF", new { id = item.Id }, new { @class = "btn btn-danger btn-xs" })
                             @*<span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Relacionar Cosif">
                                 <button data-btn-rela="btn-relacionar" class = "btn btn-default glyphicon glyphicon-triangle-bottom"></button>
                             </span>*@ 
                         </td>
                         <td>
                             <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Relacionar Cosif">
-                                <button data-btn-rela="btn-relacionar" class="btn btn-default glyphicon glyphicon-triangle-left"></button>
+                                <button data-btn-rela="btn-relacionar" class="btn btn-default btn-xs glyphicon glyphicon-triangle-left"></button>
                             </span>
                         </td>
                     </tr>

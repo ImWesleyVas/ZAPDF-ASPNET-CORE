@@ -41,10 +41,9 @@ namespace ZAPNET.DemoFina.Controllers
 
             List<ContaDF> contasDF = new List<ContaDF>();
             contasDF = await new ContaDFDAO(_repoContaDF).findAllContasDFAsync(Id);
-            var pageListContaDF = contasDF.ToPagedList(pagina, 10);
+            var pageListContaDF = contasDF.ToPagedList(pagina, 12);
             
             ViewData["MesAno"] = periodo.Substring(0, 4) + "-" + periodo.Substring(4, 2);
-
 
             //resolvendo o problema da lista vazia... 
             if (contasDF.Count == 0)

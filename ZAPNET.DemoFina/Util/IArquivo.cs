@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace ZAPNET.DemoFina.Util
 {
     interface IArquivo<T>
-    {
-        T ReadFile();
+    {       
 
     }
 }

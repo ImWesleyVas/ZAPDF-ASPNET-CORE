@@ -11,9 +11,19 @@ $(".btn").click(function (evento) {
     //debugger;
     //evento.preventDefault();
     var btn = $(this).find(".spinner");
-    console.log(btn);
-    
+  
     btn.toggle();
+    setTimeout(function () { }, 1500);
+})
+
+$(".btn-import").click(function (evento) {
+    debugger;
+    //evento.preventDefault();
+    var spanTag = $("span.spinner");
+    console.log(spanTag);
+
+    spanTag.addClass('spinnerGrande');
+    spanTag.toggle();
 
     setTimeout(function () { }, 1500);
 

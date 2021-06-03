@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,18 +17,21 @@ namespace ZAPNET.DemoFina.Util
         {
         }
 
-        public override List<string[]> ReadFile()
+        public override async Task<List<string[]>> ReadFile(List<IFormFile> arquivos, IHostingEnvironment appEnvironment)
         {
             try
             {
-                using (StreamReader sr = File.OpenText(Path))
+                PathFile = await UploadFiles(arquivos, appEnvironment);
+
+                using (StreamReader sr = File.OpenText(PathFile))
                 {
                     List<string[]> lines = new List<string[]>();
                     string[] line = null;
 
                     while (!sr.EndOfStream)
-                    {                        
-                        line = sr.ReadLine().Split(';');
+                    {    
+                        string linha = await sr.ReadLineAsync();
+                        line = linha.Split(';');
                         lines.Add(line);                        
                     }
                     return lines;
