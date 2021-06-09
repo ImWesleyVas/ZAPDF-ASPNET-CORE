@@ -64,6 +64,8 @@ namespace ZAPNET.DemoFina
             services.AddTransient<IRelaContaDFCosifRepository, RelaContaDFCosifRepository>();
             //ModeloDFRepository
             services.AddTransient<IModeloDFRepository, ModeloDFRepository>();
+            //CadocRepository
+            services.AddTransient<ICadocRepository, CadocRepository>();
             //Sessions
             services.AddTransient<IModeloSessions, ModelosSessions>();
 

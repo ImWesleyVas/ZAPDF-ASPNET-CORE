@@ -30,10 +30,7 @@ namespace ZAPNET.DemoFina.Controllers
             _cosifDao = new CosifDAO(_repo);
         }
 
-
-
         //Injeta a instância no construtor para poder usar os recursos
-
 
         //USANDO BIBLIOTECA X.PAGEDLIST.MVC.CORE PARA PAGINAÇÃO
         public async Task<IActionResult> ListaCosif(int pagina = 1)  // recebendo a pagina como parâmetro, iniciando por pagina 1

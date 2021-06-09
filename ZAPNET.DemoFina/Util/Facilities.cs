@@ -6,7 +6,7 @@ namespace ZAPNET.DemoFina.Util
     {
         public static bool ehNumero(string valor, string qteCaract)
         {
-            return Regex.IsMatch(valor, @"^\d{qteCaract}$");
+            return Regex.IsMatch(valor, $"[0-9]{'{'+qteCaract+'}'}");
         }
     }
 }

@@ -1,9 +1,9 @@
 ﻿
 @{
-    ViewData["Title"] = "ImportarCosif";
+    ViewData["Title"] = "Importar Cadoc";
 }
 
-<h2>Importar Cosif</h2>
+<h2>Importar CADOC</h2>
 
 
 <hr />
@@ -11,7 +11,7 @@
     <div class="container">
         <div class="row">
             <section>
-                <form method="post" enctype="multipart/form-data" asp-controller="Cosif" asp-action="EnviarArquivo">
+                <form method="post" enctype="multipart/form-data" asp-controller="Balancete" asp-action="ImportarCADOC">
                     <div class="form-group">
                         <div class="col-md-8">
                             <p> Enviar um ou mais arquivos : </p>
@@ -20,7 +20,7 @@
                         </div>
                         <div class="col-md-2" style="display:block; text-align:right">
                             <input type="submit" value="Importar arquivo" class="btn btn-block btn-success btn-import" />
-                            <a type="buttom" asp-controller="Cosif" asp-action="ListaCosif" class="btn btn-block btn-danger"> Cancelar</a>
+                            <a type="buttom" asp-controller="" asp-action="" class="btn btn-block btn-danger"> Cancelar</a>
                         </div>
                         <div class="col-md-2">
                             <span class="spinner"><img class="grande" src="~/images/spinner.gif" alt="Spinner" /></span>
@@ -34,7 +34,7 @@
         <br />
         @if (@ViewBag.Erro != null)
         {
-            <h3 class="danger">@ViewBag.Erro"]</h3>
+            <h3 class="danger">@ViewBag.Erro</h3>
             <br />
             <br />
         }
@@ -45,4 +45,7 @@
             <br />
         }
     </div>
+
+
+
 </div>

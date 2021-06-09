@@ -33,18 +33,33 @@ namespace ZAPNET.DemoFina.Util
             // processa os arquivo enviados
             //percorre a lista de arquivos selecionados
             foreach (var arquivo in arquivos)
-            {                
+            {
                 // < define a pasta onde vamos salvar os arquivos >
                 string pasta = "UserFiles";
+
                 // Define um nome para o arquivo enviado incluindo o sufixo obtido de milesegundos
-                string nomeArquivo = "File_Cosif_" + DateTime.Now.Millisecond.ToString();
+                var tamanho = Convert.ToInt32(arquivo.FileName.Length);
+                string nomeArquivo; 
+
                 //verifica qual o tipo de arquivo : txt ou csv
                 if (arquivo.FileName.Contains(".txt"))
+                {
+                    nomeArquivo = arquivo.FileName.Substring(0, tamanho - 4);
+                    nomeArquivo += "_" + DateTime.Now.Date.ToString() + DateTime.Now.Hour.ToString();
                     nomeArquivo += ".txt";
-                if (arquivo.FileName.Contains(".bc"))
+                }
+                else if (arquivo.FileName.Contains(".bc"))
+                {
+                    nomeArquivo = arquivo.FileName.Substring(0, tamanho - 3);
+                    nomeArquivo += "_" + DateTime.Now.ToString().Replace("/", "").Replace(" ", "").Replace(":","").Trim();
                     nomeArquivo += ".bc";
+                }
                 else
+                {
+                    nomeArquivo = arquivo.FileName.Substring(0, tamanho - 4);
+                    nomeArquivo += "_" + DateTime.Now.ToString().Replace("/", "").Replace(" ", "").Replace(":", "").Trim();
                     nomeArquivo += ".csv";
+                }
                 //< obtém o caminho físico da pasta wwwroot >
                 string caminho_WebRoot = appEnvironment.WebRootPath;
                 // monta o caminho onde vamos salvar o arquivo : 

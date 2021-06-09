@@ -18,18 +18,10 @@ namespace ZAPNET.DemoFina.Services
         //injeção de dependencia (container e consumo de serviço na startup)
         
         public CosifRepository(ConnectionDB conexao)
-        {
-           
-            if (conn == null)
-            {
-                conn = conexao.ObterConexao();
-            }
+        {           
+            if (conn == null) conn = conexao.ObterConexao();            
 
-            if (comando == null)
-            {
-                comando = new SqlCommand();
-
-            }
+            if (comando == null) comando = new SqlCommand();
         }
 
         public async Task<bool> ImportaCosifCSVAsync(List<string[]> contasCosif)
@@ -42,6 +34,10 @@ namespace ZAPNET.DemoFina.Services
                 comando.CommandType = CommandType.Text;
                 // abre conexao com DB
                 conn.Open();
+
+                comando.CommandText = "delete from COSIF_TMP";
+                await comando.ExecuteNonQueryAsync();
+                comando.Parameters.Clear();
 
                 comando.CommandText = @"INSERT INTO COSIF_TMP (plano, conta, nome_conta, dt_ini_vigen, dt_fim_vigen, natureza, doc_cd, segmento, numero_colunas, conta_grupo)" +
                                             "VALUES (@PLANO, @CONTA, @NOME_CONTA, @DT_INI_VIGEN, @DT_FIM_VIGEN, @NATUREZA, @DOC_CD, @SEGMENTO, @NUMERO_COLUNAS, @CONTA_GRUPO)";
@@ -68,7 +64,6 @@ namespace ZAPNET.DemoFina.Services
                     contador += await comando.ExecuteNonQueryAsync();
 
                     comando.Parameters.Clear();
-
 
                 }
 
@@ -127,11 +122,7 @@ namespace ZAPNET.DemoFina.Services
             }
             finally
             {
-                if (conn.State == ConnectionState.Open)
-                {
-                    conn.Close();
-                }
-
+                if (conn.State == ConnectionState.Open) conn.Close();
             }
 
             return result;
@@ -165,8 +156,6 @@ namespace ZAPNET.DemoFina.Services
                 // executa o comando SQL
                 using (var dr = await comando.ExecuteReaderAsync())
                 {
-
-
                     while (dr.Read())
                     {
                         var cosif = new Cosif();
