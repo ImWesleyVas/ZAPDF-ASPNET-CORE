@@ -37,9 +37,7 @@ namespace ZAPNET.DemoFina.Services
                 // abre conexao com DB
                 conn.Open();
 
-                comando.CommandText = "delete from CADOC_TMP";
-                await comando.ExecuteNonQueryAsync();
-                comando.Parameters.Clear();
+                await DeleteCadocTmpAsync();
 
                 comando.CommandText = "insert into CADOC_TMP (linha, reg, campo1, campo2, campo3, campo4, campo5, campo6, campo7, campo8, campo9)" +
                     "values(@linha, @reg, @campo1, @campo2, @campo3, @campo4, @campo5, @campo6, @campo7, @campo8, @campo9)";
@@ -90,7 +88,7 @@ namespace ZAPNET.DemoFina.Services
             finally
             {
                 if (conn.State == ConnectionState.Open) conn.Close();
-                
+
             }
 
             return result;
@@ -104,7 +102,109 @@ namespace ZAPNET.DemoFina.Services
 
         public async Task<List<string[]>> FindAllCadocAsync()
         {
-            return new List<string[]>();
+
+            List<string[]> lista = new List<string[]>();
+
+
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "SELECT * FROM CADOC_TMP ORDER BY 1";
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executa o comando SQL
+                using (var dr = await comando.ExecuteReaderAsync())
+                {
+                    while (dr.Read())
+                    {
+
+                        if (dr[1].ToString() == "#A1")
+                        {
+                            string[] cadoc = new string[9];
+
+                            for (int i = 0; i < cadoc.Length; i++)
+                            {
+                                cadoc[i] = dr[i].ToString();
+                            }
+
+                            lista.Add(cadoc);
+
+                        }
+                        else if (dr[1].ToString() == "0")
+                        {
+                            string[] cadoc = new string[11];
+
+                            for (int i = 0; i < cadoc.Length; i++)
+                            {
+                                cadoc[i] = dr[i].ToString();
+                            }
+
+                            lista.Add(cadoc);
+                        }
+                        else if (dr[1].ToString() == "@1")
+                        {
+                            string[] cadoc = new string[4];
+
+                            for (int i = 0; i < cadoc.Length; i++)
+                            {
+                                cadoc[i] = dr[i].ToString();
+                            }
+
+                            lista.Add(cadoc);
+                        }
+
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
+            return lista;
+        }
+
+        public async Task<bool> DeleteCadocTmpAsync()
+        {
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "DELETE FROM CADOC_TMP";
+
+                // abre conexao com DB
+                if (conn.State.ToString() != "Open")
+                    conn.Open();
+
+                result = (await comando.ExecuteNonQueryAsync() >= 0) ? true : false;
+                comando.Parameters.Clear();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return result;
         }
 
     }

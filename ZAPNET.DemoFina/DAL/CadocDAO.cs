@@ -20,5 +20,15 @@ namespace ZAPNET.DemoFina.DAL
             List<string[]> linhasCosif = lista;
             return await repo.GravarCadocDBAsync(linhasCosif);
         }
+
+        public async Task<List<string[]>> ListaCadocDAOAsync()
+        {
+            return await repo.FindAllCadocAsync();
+        }
+
+        public async Task<bool> DeleteCadocTmpDAO()
+        {
+            return await repo.DeleteCadocTmpAsync();
+        }
     }
 }

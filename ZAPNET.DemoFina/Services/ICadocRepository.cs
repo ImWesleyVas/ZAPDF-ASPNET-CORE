@@ -8,5 +8,6 @@ namespace ZAPNET.DemoFina.Services
         Task<List<string[]>> FindAllCadocAsync();
         Task<bool> GravarCadocDBAsync(List<string[]> linhaCadoc);
         Task<bool> GravarCadocErrorDBAsync(List<string[]> linhaCadoc);
+        Task<bool> DeleteCadocTmpAsync();
     }
 }

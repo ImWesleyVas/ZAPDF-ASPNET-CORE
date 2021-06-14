@@ -34,6 +34,7 @@ namespace ZAPNET.DemoFina.Controllers
 
         public IActionResult ImportarCADOC()
         {
+            cadocDAO.DeleteCadocTmpDAO();
             return View();
         }
 
@@ -46,7 +47,14 @@ namespace ZAPNET.DemoFina.Controllers
 
             await cadocDAO.GravarCadocAsync(lista);
 
-            return View();
+            return RedirectToAction("ListaCADOC");
+        }
+
+        public async Task<IActionResult> ListaCADOC()
+        {
+            var lista = await cadocDAO.ListaCadocDAOAsync();
+            ViewBag.Sucesso = "Saldos importados com sucesso!";
+            return View(lista);
         }
     }
 }

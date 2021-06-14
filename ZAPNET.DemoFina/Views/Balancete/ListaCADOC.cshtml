@@ -1,0 +1,200 @@
+﻿@model IList<string[]>
+@{
+    ViewData["Title"] = "Importar Cadoc";
+}
+
+<h2>Importar CADOC</h2>
+
+
+<hr />
+<div class="modal-content">
+    <div class="container">
+        <div class="row">
+            <section>
+                <form method="post" enctype="multipart/form-data" asp-controller="Balancete" asp-action="ImportarCADOC">
+                    <div class="form-group">
+                        <div class="col-md-8">
+                            <p> Enviar um ou mais arquivos : </p>
+                            <input type="file" name="arquivos" multiple class="btn btn-block btn-primary" />
+                            <br />
+                        </div>
+                        <div class="col-md-2" style="display:block; text-align:right">
+                            <input type="submit" value="Importar arquivo" class="btn btn-block btn-success btn-import" />
+                            <a type="buttom" asp-action="ImportarCADOC" class="btn btn-block btn-danger"> Cancelar</a>
+                        </div>
+                        <div class="col-md-2">
+                            <span class="spinner"><img class="grande" src="~/images/spinner.gif" alt="Spinner" /></span>
+                        </div>
+                    </div>
+
+                </form>
+            </section>
+        </div>
+        <br />
+        <br />
+        @if (@ViewBag.Erro != null)
+        {
+            <h3 class="danger">@ViewBag.Erro</h3>
+            <br />
+            <br />
+        }
+        @if (@ViewBag.Resultado != null)
+        {
+            <h3 class="success">@ViewBag.Resultado</h3>
+            <br />
+            <br />
+        }
+    </div>
+
+</div>
+
+<div class="container center-block panel-heading">
+    <div class="col-md-6 alert-success text-center">
+        <h2>@ViewBag.Sucesso</h2>
+    </div>
+    <div  class="col-md-6">
+        <button class="btn btn-primary btn-block" style="height:3em; font-size: 22px; ">Ver Balancete</button>
+    </div>
+</div>
+
+
+<div class="modal-content" data-role="page">
+    <table class="table" role="listbox" style="font-size:12px;">
+        <thead>
+            <tr>
+                <th>
+                    Linha
+                </th>
+                <th>
+                    Registro
+                </th>
+                <th>
+                    Campo 1
+                </th>
+                <th>
+                    Campo 2
+                </th>
+                <th>
+                    Campo 3
+                </th>
+                <th>
+                    Campo 4
+                </th>
+                <th>
+                    Campo 5
+                </th>
+                <th>
+                    Campo 6
+                </th>
+                <th>
+                    Campo 7
+                </th>
+                <th>
+                    Campo 8
+                </th>
+                <th>
+                    Campo 9
+                </th>
+                <th>
+                    Campo 10
+                </th>
+                <th>
+                    Campo 11
+                </th>
+            </tr>
+        </thead>
+        @foreach (var item in Model)
+        {
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item[0])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item[1])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item[2])
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item[3])
+                    </td>
+                    @if (item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[4])
+                        </td>
+                    }
+                    @if (item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[5])
+                        </td>
+                    }
+                    @if (item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[6])
+                        </td>
+                    }
+                    @if (item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[7])
+                        </td>
+                    }
+                    @if (item[1] == "#A1" || item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[8])
+                        </td>
+                    }
+                    @if (item[1] == "#A1" || item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[9])
+                        </td>
+                    }
+
+                    @if (item[1] == "#A1" || item[1] == "@1")
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item[10])
+                        </td>
+                    }
+
+
+                </tr>
+            </tbody>
+        }
+    </table>
+
+</div>
