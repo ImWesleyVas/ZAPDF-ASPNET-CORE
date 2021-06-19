@@ -17,14 +17,15 @@ namespace ZAPNET.DemoFina.Controllers
 
         //Define uma instância de IHostingEnvironment
         private readonly IHostingEnvironment _appEnvironment;
-
         // Atributo DAO
         private readonly CadocDAO cadocDAO;
-
-        public BalanceteController(ICadocRepository repo, IHostingEnvironment appEnvironment)
+        private readonly SaldoCosifDAO saldoCosifDAO;
+        
+        public BalanceteController(ICadocRepository repo, IHostingEnvironment appEnvironment, IPeriodoRefRepository periodoRef, ICosifRepository cosif, ISaldoRepository saldoRepository)
         {           
             _appEnvironment = appEnvironment;
-            cadocDAO = new CadocDAO(repo);
+            saldoCosifDAO = new SaldoCosifDAO(cosif, saldoRepository);
+            cadocDAO = new CadocDAO(saldoCosifDAO, repo, periodoRef);            
         }
 
         public IActionResult MenuBalancete()
@@ -45,7 +46,7 @@ namespace ZAPNET.DemoFina.Controllers
 
             var lista = await cadoc.ReadFile(arquivos, _appEnvironment);
 
-            await cadocDAO.GravarCadocAsync(lista);
+            await cadocDAO.GravarSaldoCadocDAOAsync(lista);
 
             return RedirectToAction("ListaCADOC");
         }

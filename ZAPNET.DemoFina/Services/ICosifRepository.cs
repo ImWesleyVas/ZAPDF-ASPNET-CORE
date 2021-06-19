@@ -8,5 +8,6 @@ namespace ZAPNET.DemoFina.Services
     {
         Task<List<Cosif>> FindAllCosifAsync();
         Task<bool> ImportaCosifCSVAsync(List<string[]> contasCosif);
+        Task<Cosif> FindByContaAsync(string conta);
     }
 }

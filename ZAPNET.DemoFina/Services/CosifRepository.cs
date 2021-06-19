@@ -187,19 +187,65 @@ namespace ZAPNET.DemoFina.Services
             return lista;
         }
 
-        public Cosif FindById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public bool Update(Cosif obj)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Cosif>> FindAll(int? id)
+       
+
+        public async Task<Cosif> FindByContaAsync(string conta)
         {
-            throw new NotImplementedException();
+            Cosif contaCosif = new Cosif();
+
+            try
+            {
+                // adiciona a propriedade connection ao respectivo objeto de conexao
+                comando.Connection = conn;
+
+                // define que tipo de comando sera executado (using System.Data)
+                comando.CommandType = CommandType.Text;
+
+                // define a query a se executada
+                comando.CommandText = "select * from COSIF where CONTA = @conta";
+
+                comando.Parameters.AddWithValue("@conta", conta);
+
+                // abre conexao com DB
+                conn.Open();
+
+                // executa o comando SQL
+                using (var dr = await comando.ExecuteReaderAsync())
+                {
+                    while (dr.Read())
+                    {
+
+                        contaCosif.Id = Convert.ToInt32(dr["Id"]);
+                        contaCosif.ContaCosif = Convert.ToInt32(dr["Conta"]);
+                        contaCosif.Descricao = Convert.ToString(dr["Descricao"].ToString());
+                        contaCosif.Tipo = Convert.ToString(dr["Tipo"].ToString());
+                        contaCosif.Natureza = Convert.ToString(dr["Natureza"].ToString());
+                        contaCosif.Nivel = Convert.ToInt32(dr["Nivel"]);
+                        contaCosif.Classe = Convert.ToString(dr["Classe"].ToString());
+                        contaCosif.Validade = Convert.ToString(dr["Validade"].ToString());
+                        contaCosif.AtributoInstitucional = Convert.ToString(dr["Atributo_Institucional"].ToString());
+                        
+                    }
+
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            finally
+            {
+                comando.Parameters.Clear();
+                conn.Close();
+            }
+
+            return contaCosif;
         }
     }
 }

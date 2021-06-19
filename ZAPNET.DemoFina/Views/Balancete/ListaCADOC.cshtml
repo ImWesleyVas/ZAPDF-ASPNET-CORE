@@ -52,7 +52,7 @@
     <div class="col-md-6 alert-success text-center">
         <h2>@ViewBag.Sucesso</h2>
     </div>
-    <div  class="col-md-6">
+    <div class="col-md-6">
         <button class="btn btn-primary btn-block" style="height:3em; font-size: 22px; ">Ver Balancete</button>
     </div>
 </div>
@@ -92,108 +92,126 @@
                 <th>
                     Campo 8
                 </th>
-                <th>
-                    Campo 9
-                </th>
-                <th>
-                    Campo 10
-                </th>
-                <th>
-                    Campo 11
-                </th>
+
             </tr>
         </thead>
         @foreach (var item in Model)
         {
-            <tbody>
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item[0])
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item[1])
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item[2])
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item[3])
-                    </td>
-                    @if (item[1] == "@1")
-                    {
+            if (item[1] == "#A1" || item[1] == "@1")
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[0])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[1])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[2])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[3])
+                        </td>
+                        @if (item[1] == "@1")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item[4])
+                            </td>
+                        }
+                        @if (item[1] == "@1")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item[5])
+                            </td>
+                        }
+                        @if (item[1] == "@1")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item[6])
+                            </td>
+                        }
+                        @if (item[1] == "@1")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item[7])
+                            </td>
+                        }
+                        @if (item[1] == "#A1" || item[1] == "@1")
+                        {
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item[8])
+                            </td>
+                        }
                         <td></td>
-                    }
-                    else
-                    {
+                        <td></td>
+                       
+                    </tr>
+                </tbody>
+
+            }
+
+            else
+            {
+                <tbody>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[0])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[1])
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item[3])
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item[4])
                         </td>
-                    }
-                    @if (item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
+
                         <td>
                             @Html.DisplayFor(modelItem => item[5])
                         </td>
-                    }
-                    @if (item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
                         <td>
                             @Html.DisplayFor(modelItem => item[6])
                         </td>
-                    }
-                    @if (item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
+
                         <td>
                             @Html.DisplayFor(modelItem => item[7])
                         </td>
-                    }
-                    @if (item[1] == "#A1" || item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
+
                         <td>
                             @Html.DisplayFor(modelItem => item[8])
                         </td>
-                    }
-                    @if (item[1] == "#A1" || item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
                         <td>
                             @Html.DisplayFor(modelItem => item[9])
                         </td>
-                    }
 
-                    @if (item[1] == "#A1" || item[1] == "@1")
-                    {
-                        <td></td>
-                    }
-                    else
-                    {
                         <td>
                             @Html.DisplayFor(modelItem => item[10])
                         </td>
-                    }
-
-
-                </tr>
-            </tbody>
+                    </tr>
+                </tbody>
+            }
         }
     </table>
 

@@ -177,6 +177,7 @@ namespace ZAPNET.DemoFina.Services
 
             return lista;
         }
+        
 
         public async Task<bool> DeleteCadocTmpAsync()
         {

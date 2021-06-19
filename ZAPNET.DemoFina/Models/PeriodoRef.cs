@@ -15,10 +15,10 @@ namespace ZAPNET.DemoFina.Models
 
         }
 
-        public PeriodoRef(string periodo, char statusPeriodo)
+        public PeriodoRef(string periodo)
         {
             Periodo = periodo;
-            StatusPeriodo = statusPeriodo;
+            StatusPeriodo = 'A';
         }
     }
 }

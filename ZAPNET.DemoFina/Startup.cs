@@ -41,8 +41,6 @@ namespace ZAPNET.DemoFina
             services.AddSession();
 
 
-
-
             // Adicionando a minha ApplicationContext, para obter a conexao e fazer a injeção de dependência, com uso do SQLServer.
             // services.AddDbContext<ZAPNETApplicationContext>(options =>
             //        options.UseSqlServer(Configuration.GetConnectionString("Default")));
@@ -52,6 +50,9 @@ namespace ZAPNET.DemoFina
 
 
             //INJEÇÃO DE DEPENDENCIA
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            
             //ContaDFRepository
             services.AddTransient<ICrudRepository<ContaDF>, ContaDFRepository>();
             //EnderecoRepository
@@ -66,10 +67,17 @@ namespace ZAPNET.DemoFina
             services.AddTransient<IModeloDFRepository, ModeloDFRepository>();
             //CadocRepository
             services.AddTransient<ICadocRepository, CadocRepository>();
+            //SaldoRepository
+            services.AddTransient<ISaldoRepository, SaldoRepository>();
+            //IPeriodoRef
+            services.AddTransient<IPeriodoRefRepository, PeriodoRefRepository>();
             //Sessions
             services.AddTransient<IModeloSessions, ModelosSessions>();
+            //Saldos Cosif e DF
+            services.AddTransient<ISaldo, SaldoCosif>();
+            services.AddTransient<ISaldo, SaldoDF>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         }
 
         // Consome os serviços, utilizar os serviços

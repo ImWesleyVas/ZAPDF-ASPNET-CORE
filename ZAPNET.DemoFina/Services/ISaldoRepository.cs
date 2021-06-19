@@ -6,7 +6,7 @@ namespace ZAPNET.DemoFina.Services
     {
         bool ExcluirSaldo(Conta conta, string periodo);
         bool ExcluirTodosSaldos(string periodo);
-        bool ImportarSaldos();
+        bool GravarSaldos(PeriodoRef periodo, SaldoCosif saldo);
         bool LancarSaldo();
     }
 }

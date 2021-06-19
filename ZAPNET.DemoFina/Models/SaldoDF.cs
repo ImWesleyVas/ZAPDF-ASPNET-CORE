@@ -7,7 +7,7 @@ namespace ZAPNET.DemoFina.Models
 {
     public class SaldoDF : Saldo
     {
-        public SaldoDF(IConta conta, int id, double valorSaldo, char sinal) : base(conta, id, valorSaldo, sinal)
+        public SaldoDF(int id, IConta conta, double valorSaldo, char sinal) : base(id, conta, valorSaldo, sinal)
         {
         }
     }
