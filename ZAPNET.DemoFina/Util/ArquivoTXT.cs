@@ -54,6 +54,11 @@ namespace ZAPNET.DemoFina.Util
 
                             validade = validaEstruturaCadoc(line, "#A1");
                             lines.Add(line);
+
+                            foreach (var item in validade)
+                            {
+                                lines.Add(item);
+                            }
                         }
                         else if (linha.StartsWith("0"))
                         {
@@ -81,6 +86,11 @@ namespace ZAPNET.DemoFina.Util
 
                             validade = validaEstruturaCadoc(line, "0");
                             lines.Add(line);
+
+                            foreach (var item in validade)
+                            {
+                                lines.Add(item);
+                            }
                         }
                         else if (linha.StartsWith("@1"))
                         {
@@ -96,28 +106,39 @@ namespace ZAPNET.DemoFina.Util
 
                             validade = validaEstruturaCadoc(line, "@1");
                             lines.Add(line);
+
+                            foreach (var item in validade)
+                            {
+                                lines.Add(item);
+                            }
                         }
                         else
                         {
-                            string[] valida = new string[4];
+                            string[] valida = new string[5];
                             valida[0] = numeroLinha.ToString();
-                            valida[1] = "ERROR";
+                            valida[1] = "XXX";
                             valida[2] = "Campo 1";
-                            valida[3] = "Inicialização da linha inválida (#A1 ou 0 ou @1); ";
+                            valida[3] = "ERROR";
+                            valida[4] = "Inicialização da linha inválida (#A1 ou 0 ou @1); ";
 
                             validade.Add(valida);
+
+                            foreach (var item in validade)
+                            {
+                                lines.Add(item);
+                            }
                         }
                         //line = linha.Split(';');
                         numeroLinha++;
                     }
 
-                    foreach (var item in validade)
-                    {
-                        if (item[1] == "ERROR")
-                        {
-                            return validade;
-                        }
-                    }
+                    //foreach (var item in validade)
+                    //{
+                    //    if (item[1] == "ERROR")
+                    //    {
+                    //        return validade;
+                    //    }
+                    //}
 
                     return lines;
                 }
@@ -133,7 +154,7 @@ namespace ZAPNET.DemoFina.Util
         private List<string[]> validaEstruturaCadoc(string[] linha, string inicializador)
         {
             List<string[]> lista = new List<string[]>();
-            string[] validade = new string[4] { linha[0], "OK", "", "" };
+            string[] validade = new string[6] { linha[0], "OK", "", "", "", "CHECK" };
             validade[0] = linha[0];
 
 
@@ -213,142 +234,194 @@ namespace ZAPNET.DemoFina.Util
                     }
                 } */
 
+                //VALIDANDO CAMPO 1 - Inicalizador do Registro
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 1";
+                validade[4] = (linha[1] == "#A1") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "Inicializador de registro inválido; " : "");
+                lista.Add(validade);
+
 
                 //VALIDANDO CAMPO 2 - CÓDIGO DO DODUMENTO
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = (linha[2] == "4010" || linha[2] == "4016" || linha[2] == "4020" || linha[2] == "4026") ? "OK" : "ERROR";
-                validade[2] = "Campo 2";
-                validade[3] = (validade[1] == "ERROR" ? "(004-007) Código do documento inválido (4010, 4016, 4020 ou 4026); " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 2";
+                validade[4] = (linha[2] == "4010" || linha[2] == "4016" || linha[2] == "4020" || linha[2] == "4026") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(004-007) Código do documento inválido (4010, 4016, 4020 ou 4026); " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 3 - CNPJ OU ID BACEN
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = Facilities.ehNumero(linha[3], "8") ? "OK" : "ERROR";
-                validade[2] = "Campo 3";
-                validade[3] = (validade[1] == "ERROR" ? "(008–015) Cnpj ou Id Bacen inválido; " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 3";
+                validade[4] = Facilities.ehNumero(linha[3], "8") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(008–015) Cnpj ou Id Bacen inválido; " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 4 - FILLER
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = linha[4].Trim() == "" ? "OK" : "ERROR";
-                validade[2] = "Campo 4";
-                validade[3] = (validade[1] == "ERROR" ? "(016-029) Filler deve ser branco; " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 4";
+                validade[4] = linha[4].Trim() == "" ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(016-029) Filler deve ser branco; " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 5 - Data-base do documento.
-                validade = new string[4];
-                validade[0] = linha[0];
-                var mes = int.Parse(linha[5].Substring(0, 2));
-                IEnumerable<int> meses = Enumerable.Range(1, 12);
-                var ano = int.Parse(linha[5].Substring(2, 4));
-                IEnumerable<int> anos = Enumerable.Range(2000, 2050);
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 5";
 
-                validade[1] = meses.Contains(mes) || anos.Contains(ano) ? "OK" : "ERROR";
-                validade[2] = "Campo 5";
-                validade[3] = (validade[1] == "ERROR" ? "(030-035) Data-base inválida; " : "");
+                if (Facilities.ehNumero(linha[5], "6"))
+                {
+                    var mes = int.Parse(linha[5].Substring(0, 2));
+                    IEnumerable<int> meses = Enumerable.Range(1, 12);
+                    var ano = int.Parse(linha[5].Substring(2, 4));
+                    IEnumerable<int> anos = Enumerable.Range(2000, 2050);
+                    validade[4] = meses.Contains(mes) || anos.Contains(ano) ? "OK" : "ERROR";
+                }
+                else
+                    validade[4] = "ERROR";
+
+                validade[5] = (validade[4] == "ERROR" ? "(030-035) Data-base inválida; " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 6 - TIPO DE REMESSA
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = linha[6] == "I" || linha[6] == "S" ? "OK" : "ERROR";
-                validade[2] = "Campo 6";
-                validade[3] = (validade[1] == "ERROR" ? "(036-036) Tipo da remessa inválida; " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 6";
+                validade[4] = linha[6] == "I" || linha[6] == "S" ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(036-036) Tipo da remessa inválida; " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 7 - FILLER
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = linha[7].Trim() == "" ? "OK" : "ERROR";
-                validade[2] = "Campo 7";
-                validade[3] = (validade[1] == "ERROR" ? "(037-071) Filler deve ser branco; " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 7";
+                validade[4] = linha[7].Trim() == "" ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(037-071) Filler deve ser branco; " : "");
                 lista.Add(validade);
 
             }
             // VALIDANDO REGISTRO DE DADOS
             else if (inicializador == "0")
             {
-                //VALIDANDO CAMPO 2 - CÓDIGO DE CONTA
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = Facilities.ehNumero(linha[2], "10") ? "OK" : "ERROR";
-                validade[2] = "Campo 2";
-                validade[3] = (validade[1] == "ERROR" ? "(001-010) Código de conta inválida; " : "");
+                //VALIDANDO CAMPO 1 - CÓDIGO DE CONTA
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 1";
+                validade[4] = Facilities.ehNumero(linha[2], "10") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(001-010) Código de conta inválida; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 3 - FILLER
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = linha[3].Trim() == "" ? "OK" : "ERROR";
-                validade[2] = "Campo 3";
-                validade[3] = (validade[1] == "ERROR" ? "(011-014) Filler deve ser branco; " : "");
+                //VALIDANDO CAMPO 2 - FILLER
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 2";
+                validade[4] = linha[3].Trim() == "" ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(011-014) Filler deve ser branco; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 4 - VALOR COLUNA 1
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = Facilities.ehNumero(linha[4], "18") ? "OK" : "ERROR";
-                validade[2] = "Campo 4";
-                validade[3] = (validade[1] == "ERROR" ? "(015–032) Valor inválido; " : "");
+                //VALIDANDO CAMPO 3 - VALOR COLUNA 1
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 3";
+                validade[4] = Facilities.ehNumero(linha[4], "18") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(015–032) Valor inválido; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 5 - SINAL COLUNA 1
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = (linha[5] == "+" || linha[5] == "-" || linha[5] == " ") ? "OK" : "ERROR";
-                validade[2] = "Campo 5";
-                validade[3] = (validade[1] == "ERROR" ? "(033-033) Sinal inválido; " : "");
+                //VALIDANDO CAMPO 4 - SINAL COLUNA 1
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 4";
+                validade[4] = (linha[5] == "+" || linha[5] == "-" || linha[5] == " ") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(033-033) Sinal inválido; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 6 - VALOR COLUNA 2
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = Facilities.ehNumero(linha[6], "18") ? "OK" : "ERROR";
-                validade[2] = "Campo 4";
-                validade[3] = (validade[1] == "ERROR" ? "(034–051) Valor inválido; " : "");
+                //VALIDANDO CAMPO 5 - VALOR COLUNA 2
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 5";
+                validade[4] = Facilities.ehNumero(linha[6], "18") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(034–051) Valor inválido; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 7 - SINAL COLUNA 2
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = (linha[7] == "+" || linha[7] == "-" || linha[7] == " ") ? "OK" : "ERROR";
-                validade[2] = "Campo 5";
-                validade[3] = (validade[1] == "ERROR" ? "(052-052) Sinal inválido; " : "");
+                //VALIDANDO CAMPO 6 - SINAL COLUNA 2
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 6";
+                validade[4] = (linha[7] == "+" || linha[7] == "-" || linha[7] == " ") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(052-052) Sinal inválido; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 8 - VALOR COLUNA 2 
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = Facilities.ehNumero(linha[8], "18") ? "OK" : "ERROR";
-                validade[2] = "Campo 4";
-                validade[3] = (validade[1] == "ERROR" ? "(053–070) Valor inválido; " : "");
+                //VALIDANDO CAMPO 7 - VALOR COLUNA 2 
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 7";
+                validade[4] = Facilities.ehNumero(linha[8], "18") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(053–070) Valor inválido; " : "");
                 lista.Add(validade);
 
-                //VALIDANDO CAMPO 9 - SINAL COLUNA 2
-                validade = new string[4];
-                validade[0] = linha[0];
-                validade[1] = (linha[9] == "+" || linha[9] == "-" || linha[9] == " ") ? "OK" : "ERROR";
-                validade[2] = "Campo 5";
-                validade[3] = (validade[1] == "ERROR" ? "(071-071) Sinal inválido; " : "");
+                //VALIDANDO CAMPO 8 - SINAL COLUNA 2
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 8";
+                validade[4] = (linha[9] == "+" || linha[9] == "-" || linha[9] == " ") ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(071-071) Sinal inválido; " : "");
                 lista.Add(validade);
 
             }
             // VALIDANDO REGISTRO DE CONTROLE FINAL
             else if (inicializador == "@1")
             {
-                //VALIDANDO CAMPO 2 - NÚMERO DE REGISTROS
-                validade[1] = int.Parse(linha[2]) == int.Parse(validade[0]) ? "OK" : "ERROR";
-                validade[2] = "Campo 2";
-                validade[3] = (validade[1] == "ERROR" ? "(003–008) Quantidade de linha(s) e de registro(s) informado(s) inválido; " : "");
+                //VALIDANDO CAMPO 1 - NÚMERO DE REGISTROS
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 1";
+                validade[4] = int.Parse(linha[2]) == int.Parse(validade[1]) ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(003–008) Quantidade de linha(s) e de registro(s) informado(s) inválido; " : "");
                 lista.Add(validade);
 
                 //VALIDANDO CAMPO 3 - FILLER
-                validade[1] = linha[3].Trim() == "" ? "OK" : "ERROR";
-                validade[2] = "Campo 3";
-                validade[3] = (validade[1] == "ERROR" ? "(009–071) Filler deve ser branco; " : "");
+                validade = new string[6];
+                validade[0] = "CHECK";
+                validade[1] = linha[0];
+                validade[2] = inicializador;
+                validade[3] = "Campo 2";
+                validade[4] = linha[3].Trim() == "" ? "OK" : "ERROR";
+                validade[5] = (validade[4] == "ERROR" ? "(009–071) Filler deve ser branco; " : "");
                 lista.Add(validade);
             }
 
@@ -360,7 +433,7 @@ namespace ZAPNET.DemoFina.Util
         // METODO EM CONSTRUÇÃO - FALTA TERMINAR
         private string[] getError(string linha, string tipoReg, string campo)
         {
-            string[] error = new string[4];
+            string[] error = new string[5];
             Dictionary<string, string> errors = new Dictionary<string, string>();
 
             //ERROS DO REGISTRO DE IDENTIFICAÇÃO
@@ -379,11 +452,12 @@ namespace ZAPNET.DemoFina.Util
             // MANIPULANDO OS CAMPOS
             if (tipoReg == "#A1")
             {
-                for (int i = 1; i < 4; i++)
+                for (int i = 1; i < 6; i++)
                 {
-                    error[i - 1] = i == 0 ? linha : "";
-                    error[i - 1] = i == 1 ? tipoReg : "";
-                    error[i - 1] = i == 2 ? "Campo " + campo : "";
+                    error[i - 1] = i == 1 ? linha : "";
+                    error[i - 1] = i == 2 ? tipoReg : "";
+                    error[i - 1] = i == 3 ? "Campo " + campo : "";
+                    error[i - 1] = i == 4 ? "Error" : "";
                     string erro;
                     errors.TryGetValue($"#A-{campo}", out erro);
                     error[i - 1] = i == 3 ? erro : "";

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ZAPNET.DemoFina.Models;
 using ZAPNET.DemoFina.Services;
+using ZAPNET.DemoFina.Util;
 
 namespace ZAPNET.DemoFina.DAL
 {
@@ -12,7 +13,7 @@ namespace ZAPNET.DemoFina.DAL
         public SaldoCosifDAO SaldoCosifDAO { get; set; }
         private readonly ICadocRepository repo;
         private readonly IPeriodoRefRepository periodoRefRepo;
-        
+
 
         public CadocDAO(ICadocRepository repo, IPeriodoRefRepository periodo)
         {
@@ -28,7 +29,7 @@ namespace ZAPNET.DemoFina.DAL
         }
 
         public async Task<bool> GravarSaldoCadocDAOAsync(List<string[]> lista)
-        {            
+        {
             bool result = false;
 
             try
@@ -49,49 +50,22 @@ namespace ZAPNET.DemoFina.DAL
                 // se existir um periodo 'F' fechado, não excluir e não adicionar, se houver periodo 'A' Aberto - apagar este e inserir o novo
                 await periodoRefRepo.AddPeriodo(new PeriodoRef(periodo));
 
-                //Obter o periodo do BD
-                var periodoRef = await periodoRefRepo.FindPeriodoRef(periodo);
+                ////Obter o periodo do BD
+                //var periodoRef = await periodoRefRepo.FindPeriodoRef(periodo);
 
-                // Gravar Saldos
-                var reg0 = listaGravaSaldo.FindAll(l => l[1] == "0");
+                //// Gravar Saldos
+                //var reg0 = listaGravaSaldo.FindAll(l => l[1] == "0");
 
-                foreach (var item in reg0)
-                {
-                    var conta = int.Parse(item[3].ToString());
-                    var sinal = item[6];
-                    var contaInic = conta.ToString().Substring(0, 1);
-                    double saldo;
+                //foreach (var item in reg0)
+                //{
+                //    var conta = int.Parse(item[3].ToString());
+                //    var sinal = item[6];
+                //    double saldo = Facilities.valorComSinalPorNatureza(conta, sinal, double.Parse(item[5]) / 100);
 
-                    if (contaInic == "1" || contaInic == "2" || contaInic == "3" || contaInic == "8")
-                    {
-                        if (sinal == "-")
-                            saldo = (double.Parse(item[5]) / 100);
-                        else
-                            saldo = -(double.Parse(item[5]) / 100);
-                        
-                        result = await SaldoCosifDAO.GravarSaldosDAOAsync(periodoRef, conta.ToString(), saldo);
-                        if (!result) throw new ArgumentException("Erro ao gravar Saldo");
-
-                    }
-                    else if (contaInic == "4" || contaInic == "5" || contaInic == "6" || contaInic == "7" || contaInic == "9")
-                    {
-                        if (sinal == "-")
-                            saldo = -(double.Parse(item[5]) / 100);
-                        else
-                            saldo = (double.Parse(item[5]) / 100);
-
-                        result = await SaldoCosifDAO.GravarSaldosDAOAsync(periodoRef, conta.ToString(), saldo);
-                        if (!result) throw new ArgumentException("Erro ao gravar Saldo");
-
-                    }
-                    else
-                        throw new ArgumentException("Caracter incial da conta inválido");
-
-
-
-                }
-
-
+                //    // devemos colocar esse metodo depois da validação do saldo cosif, validação do periodo
+                //    result = await SaldoCosifDAO.GravarSaldosDAOAsync(periodoRef, conta.ToString(), saldo);
+                //    if (!result) throw new ArgumentException("Erro ao gravar Saldo");
+                //}
             }
             catch (Exception e)
             {
@@ -106,6 +80,12 @@ namespace ZAPNET.DemoFina.DAL
             return result;
         }
 
+        internal async Task<bool> GravarValidacaoCadocDAOAsync(List<string[]> linhasValidacao)
+        {
+            bool result = await repo.GravarValidacaoCadocDBAsync(linhasValidacao);
+
+            return result;
+        }
 
         public async Task<List<string[]>> ListaCadocDAOAsync()
         {
@@ -115,6 +95,11 @@ namespace ZAPNET.DemoFina.DAL
         public async Task<bool> DeleteCadocTmpDAO()
         {
             return await repo.DeleteCadocTmpAsync();
+        }
+
+        internal async Task<List<string[]>> FindAllCadocValidacaoAsyncDAO()
+        {
+            return await repo.FindAllCadocValidacaoAsyncDB();
         }
 
 

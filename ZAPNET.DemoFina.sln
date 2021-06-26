@@ -5,14 +5,6 @@ VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZAPNET.DemoFina", "ZAPNET.DemoFina\ZAPNET.DemoFina.csproj", "{084602C5-61E7-441B-A833-24CE06DA4F74}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZAPNET.Contas", "ZAPNET.Contas\ZAPNET.Contas.csproj", "{3EA7056F-F82D-4A4F-840D-A03767A0E9FB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZAPNET.Empresas", "ZAPNET.Empresas\ZAPNET.Empresas.csproj", "{283B3942-0421-419B-8485-D4FC8EC88A97}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZAPNET.DAL", "ZAPNET.DAL\ZAPNET.DAL.csproj", "{90982E8D-88E7-48CE-A82F-1DED40FE1151}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZAPNET.Interfaces", "ZAPNET.Interfaces\ZAPNET.Interfaces.csproj", "{B20C4A67-5D48-47C6-9197-8EAFED650338}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,22 +15,6 @@ Global
 		{084602C5-61E7-441B-A833-24CE06DA4F74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{084602C5-61E7-441B-A833-24CE06DA4F74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{084602C5-61E7-441B-A833-24CE06DA4F74}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3EA7056F-F82D-4A4F-840D-A03767A0E9FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3EA7056F-F82D-4A4F-840D-A03767A0E9FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3EA7056F-F82D-4A4F-840D-A03767A0E9FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3EA7056F-F82D-4A4F-840D-A03767A0E9FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{283B3942-0421-419B-8485-D4FC8EC88A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{283B3942-0421-419B-8485-D4FC8EC88A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{283B3942-0421-419B-8485-D4FC8EC88A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{283B3942-0421-419B-8485-D4FC8EC88A97}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90982E8D-88E7-48CE-A82F-1DED40FE1151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90982E8D-88E7-48CE-A82F-1DED40FE1151}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90982E8D-88E7-48CE-A82F-1DED40FE1151}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90982E8D-88E7-48CE-A82F-1DED40FE1151}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B20C4A67-5D48-47C6-9197-8EAFED650338}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B20C4A67-5D48-47C6-9197-8EAFED650338}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B20C4A67-5D48-47C6-9197-8EAFED650338}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B20C4A67-5D48-47C6-9197-8EAFED650338}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

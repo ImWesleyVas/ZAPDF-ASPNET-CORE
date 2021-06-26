@@ -10,10 +10,16 @@ namespace ZAPNET.DemoFina.DAL
     public class ModeloDAO
     {
         private IModeloDFRepository repo;
+
+
         private IModeloSessions sessions;
         public string _periodo { get; set; }
 
 
+        public ModeloDAO(IModeloDFRepository repo)
+        {
+            this.repo = repo;
+        }
         public ModeloDAO(IModeloDFRepository repo, IModeloSessions sessions)
         {
             this.repo = repo;

@@ -37,7 +37,7 @@ namespace ZAPNET.DemoFina.Services
             if (periodoParam.Periodo != null)
             {                
                 saldoRepo.ExcluirTodosSaldos(periodo.Periodo);
-                DeletePeriodo(periodo);
+                DeletePeriodoRefDAO(periodo);
             }
 
 
@@ -73,7 +73,7 @@ namespace ZAPNET.DemoFina.Services
             return result;
         }
 
-        public bool DeletePeriodo(PeriodoRef periodo)
+        public bool DeletePeriodoRefDAO(PeriodoRef periodo)
         {
             try
             {

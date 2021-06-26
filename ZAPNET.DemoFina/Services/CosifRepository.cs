@@ -168,6 +168,8 @@ namespace ZAPNET.DemoFina.Services
                         cosif.Classe = Convert.ToString(dr["Classe"].ToString());
                         cosif.Validade = Convert.ToString(dr["Validade"].ToString());
                         cosif.AtributoInstitucional = Convert.ToString(dr["Atributo_Institucional"].ToString());
+                        cosif.VigenciaInicial = dr["vigencia_ini"].ToString();
+                        cosif.VigenciaFinal = dr["vigencia_fin"].ToString();
 
                         lista.Add(cosif);
                     }
