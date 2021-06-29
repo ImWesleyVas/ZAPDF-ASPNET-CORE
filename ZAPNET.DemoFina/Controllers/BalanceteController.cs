@@ -65,33 +65,46 @@ namespace ZAPNET.DemoFina.Controllers
             var validacao = await cadocDAO.FindAllCadocValidacaoAsyncDAO();
 
             //// verificar se há algum erro na importação do cadoc
-            ///  se houver redirecionar para ListaCADOC e mostrar erros
-            foreach (var item in validacao)
-            {
-                if (item[3].Trim() == "ERROR")
-                    return RedirectToAction("ListaCADOC");
-            }
+            ///  se houver redirecionar para ListaCADOC e mostrar erros            
+            var existeErro = validacao.FindAll(e => e[3] == "ERROR");
+            if (existeErro.Count > 0)
+                return RedirectToAction("ListaCADOC");
 
             // verificar se há algum registro cadoc inconsistente
+            // (falta construir métodos de tabela de criticas do bacen)
+            /*****************************************/
 
-
-            // se estiver Ok redirecionar gravar saldos Cosif
+            // se cadoc estiver tudo Ok, trasformar cadoc em saldos Cosif
             // e redirecinar para Balancete Saldos Cosif
-            var listaCadoc = await cadocDAO.ListaCadocDAOAsync();
-            var linhaCadoc = listaCadoc.First();
-            var periodo = linhaCadoc[5];
-            // precisa chamar o metodo para passar a lista de cadoc -- GravarSaldosDAOAsync
+            await saldoCosifDAO.TransformarSaldoCADOCEmSaldoCosif();
 
-            return RedirectToAction("Balancete");
+            var linha  = linhasCadoc.Find(l => l[1] == "#A1");
+            var periodo = linha[5].Substring(2, 4) + linha[5].Substring(0, 2);
+           
+            //passando a action, controller e um novo objeto de parametro
+            return RedirectToAction("Balancete", "Balancete", new { periodo } );
 
         }
 
         public async Task<IActionResult> ListaCADOC()
         {
             var lista = await cadocDAO.ListaCadocDAOAsync();
-            ViewBag.Sucesso = "CADOC importado apresenta erros, por favor corrija-os e o importe novavamente!";
+            ViewBag.Erros = "Não foi possível importar os saldos. CADOC possui erros, por favor corrija-os e importe o novo arquivo!";
             return View(lista);
         }
+
+
+        public async Task<IActionResult> Balancete(string periodo)
+        {
+            var saldosCosif = await saldoCosifDAO.ListaSaldosCosifDAOAsync(periodo);
+            
+            BalanceteModelView balancete = new BalanceteModelView(await periodoRefDAO.FindByPeriodoRefDAO(periodo), saldosCosif);
+
+            ViewBag.Sucesso = "Saldos importados com sucesso!";
+
+            return View(balancete);
+        }
+
 
         public async Task<JsonResult> ChecarPeriodo(string periodo)
         {

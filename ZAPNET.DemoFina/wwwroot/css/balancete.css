@@ -1,0 +1,20 @@
+﻿body {
+}
+
+.conta{
+    width:15%;
+}
+
+.nomeConta {
+    width: 50%;
+}
+
+.valorSaldo{
+    width:25%;
+    text-align-last: right;
+}
+
+.sinal{
+    width:10%;
+    text-align-last: center;
+}

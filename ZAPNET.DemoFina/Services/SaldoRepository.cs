@@ -34,10 +34,8 @@ namespace ZAPNET.DemoFina.Services
 
         public bool GravarSaldos(PeriodoRef periodo, SaldoCosif saldo)
         {
-
             try
             {
-
                 // adiciona a propriedade connection ao respectivo objeto de conexao
                 comando.Connection = conn;
                 // define que tipo de comando sera executado (using System.Data)
@@ -54,8 +52,7 @@ namespace ZAPNET.DemoFina.Services
                 // trocamos os parametros
                 comando.Parameters.AddWithValue("@periodo", periodo.Periodo.Trim());
                 comando.Parameters.AddWithValue("@conta_cosif", ((Cosif)saldo.Conta).ContaCosif);
-                comando.Parameters.AddWithValue("@saldo", saldo.ValorSaldo);
-
+                comando.Parameters.AddWithValue("@saldo", saldo.Sinal == 'D' ? -saldo.ValorSaldo : saldo.ValorSaldo);
 
                 // executamos o comando para inserir no BD e retorna 1 a cada execução
                 contador += comando.ExecuteNonQuery();
@@ -145,7 +142,7 @@ namespace ZAPNET.DemoFina.Services
                 // abre conexao com DB
                 conn.Open();
 
-                comando.CommandText = "select *  from SALDO_COSIF where PERIODO = @periodo";
+                comando.CommandText = "select *  from SALDO_COSIF where PERIODO = @periodo order by conta_cosif";
 
                 // trocamos os parametros
                 comando.Parameters.AddWithValue("@periodo", periodo.Trim());
@@ -166,7 +163,7 @@ namespace ZAPNET.DemoFina.Services
                         SaldoCosif saldoCosif = new SaldoCosif(cosif, Math.Abs(saldo), sinal);
 
                         listaSaldosCosif.Add(saldoCosif);
-                    }                    
+                    }
                 }
             }
             catch (Exception e)

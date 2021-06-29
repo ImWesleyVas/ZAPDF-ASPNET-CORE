@@ -17,21 +17,21 @@ namespace ZAPNET.DemoFina.Util
             return sinal;
         }
 
-        public static double valorComSinalPorNatureza(int conta, string sinal, double valorSaldo)
+        public static double valorComSinalPorNatureza(int conta, char sinal, double valorSaldo)
         {
             double saldo;
             var contaInic = conta.ToString().Substring(0, 1);
 
-            if (contaInic == "1" || contaInic == "2" || contaInic == "3" || contaInic == "8")
+            if (contaInic == "1" || contaInic == "2" || contaInic == "3")
             {
-                if (sinal == "-")
+                if (sinal == '-')
                     saldo = valorSaldo;
                 else
                     saldo = -valorSaldo;                
             }
-            else if (contaInic == "4" || contaInic == "5" || contaInic == "6" || contaInic == "7" || contaInic == "9")
+            else if (contaInic == "4" || contaInic == "5" || contaInic == "6" || contaInic == "7" || contaInic == "8" || contaInic == "9")
             {
-                if (sinal == "-")
+                if (sinal == '-')
                     saldo = -valorSaldo;
                 else
                     saldo = valorSaldo;                

@@ -46,7 +46,6 @@ namespace ZAPNET.DemoFina.DAL
             result = saldoRepository.GravarSaldos(PeriodoRef, saldoCosif);
 
             return result;
-
         }
 
         public async Task<List<SaldoCosif>> ListaSaldosCosifDAOAsync(string periodo)
@@ -56,9 +55,8 @@ namespace ZAPNET.DemoFina.DAL
         }
 
         // tratar a transformação do saldo cadoc em saldo cosif, nesse método separado (originou-se dentro do CadocDao em GravaSaldoCadocDaoAsync)
-        public async void TransformarSaldoCADOCEmSaldoCosif()
+        public async Task<bool> TransformarSaldoCADOCEmSaldoCosif()
         {
-
             bool result = false;
 
             var listaGravaSaldo = await cadocRepository.FindAllCadocAsync();
@@ -76,13 +74,15 @@ namespace ZAPNET.DemoFina.DAL
             foreach (var item in reg0)
             {
                 var conta = int.Parse(item[3].ToString());
-                var sinal = item[6];
+                char sinal = Convert.ToChar(item[6]);
                 double saldo = Facilities.valorComSinalPorNatureza(conta, sinal, double.Parse(item[5]) / 100);
 
                 // devemos colocar esse metodo depois da validação do saldo cosif, validação do periodo
                 result = await GravarSaldosDAOAsync(periodoRef, conta.ToString(), saldo);
                 if (!result) throw new ArgumentException("Erro ao gravar Saldo");
             }
+
+            return result;
         }
     }
 }

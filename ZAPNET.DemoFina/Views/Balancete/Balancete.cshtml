@@ -1,0 +1,58 @@
+﻿@model ZAPNET.DemoFina.Models.BalanceteModelView
+
+@{
+    ViewData["Title"] = "Balancete";
+
+    PeriodoRef periodo = Model.PeriodoRef;
+    List<SaldoCosif> listaSaldos = Model.BalanceteSaldosCosif;
+    Cosif contaCosif;
+}
+
+<div style="text-align:center">
+    <h2>Balancete em @periodo.Periodo</h2>
+</div>
+
+
+<div class="container center-block panel-heading">
+    <div class="alert-success text-center">
+        <h3>@ViewBag.Sucesso</h3>
+    </div>
+</div>
+
+<div class="modal-content" data-role="page">
+    <table class="table" role="listbox" style="font-size:12px;">
+        <thead>
+            <tr>
+                <th class="conta">Conta Cosif</th>
+                <th class="nomeConta">Nome</th>
+                <th class="valorSaldo">Valor</th>
+                <th class="sinal">Sinal</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in listaSaldos)
+            {
+
+                @if (item.Conta.GetType() == typeof(Cosif))
+                {
+                    contaCosif = (Cosif)item.Conta;
+                    <tr>
+                        <td class="conta">
+                            @contaCosif.ContaCosif
+                        </td>
+                        <td class="nomeConta">
+                            @contaCosif.Descricao
+                        </td>
+                        <td class="valorSaldo">
+                            @item.ValorSaldo
+                        </td>
+                        <td class="sinal">
+                            @item.Sinal
+                        </td>
+
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>
